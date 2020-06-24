@@ -15,6 +15,10 @@
 		E4E0BD6624A30A8400A72DEA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E4E0BD6424A30A8400A72DEA /* LaunchScreen.storyboard */; };
 		E4E0BD7024A30A9B00A72DEA /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E4E0BD6F24A30A9B00A72DEA /* CloudKit.framework */; };
 		E4E0BD7224A30AF000A72DEA /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E0BD7124A30AF000A72DEA /* ViewModel.swift */; };
+		E4E0BD7424A30F7B00A72DEA /* Poll.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E0BD7324A30F7B00A72DEA /* Poll.swift */; };
+		E4E0BD7624A30F8800A72DEA /* PollItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E0BD7524A30F8800A72DEA /* PollItem.swift */; };
+		E4E0BD7824A30F9100A72DEA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E0BD7724A30F9100A72DEA /* User.swift */; };
+		E4E0BD7B24A313FD00A72DEA /* RecordType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E0BD7A24A313FD00A72DEA /* RecordType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +33,10 @@
 		E4E0BD6D24A30A9700A72DEA /* Poller.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Poller.entitlements; sourceTree = "<group>"; };
 		E4E0BD6F24A30A9B00A72DEA /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		E4E0BD7124A30AF000A72DEA /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		E4E0BD7324A30F7B00A72DEA /* Poll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poll.swift; sourceTree = "<group>"; };
+		E4E0BD7524A30F8800A72DEA /* PollItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollItem.swift; sourceTree = "<group>"; };
+		E4E0BD7724A30F9100A72DEA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		E4E0BD7A24A313FD00A72DEA /* RecordType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +76,8 @@
 				E4E0BD5B24A30A7F00A72DEA /* SceneDelegate.swift */,
 				E4E0BD5D24A30A7F00A72DEA /* ContentView.swift */,
 				E4E0BD7124A30AF000A72DEA /* ViewModel.swift */,
+				E4E0BD7A24A313FD00A72DEA /* RecordType.swift */,
+				E4E0BD7924A310D900A72DEA /* Data */,
 				E4E0BD5F24A30A8400A72DEA /* Assets.xcassets */,
 				E4E0BD6424A30A8400A72DEA /* LaunchScreen.storyboard */,
 				E4E0BD6724A30A8400A72DEA /* Info.plist */,
@@ -90,6 +100,16 @@
 				E4E0BD6F24A30A9B00A72DEA /* CloudKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E4E0BD7924A310D900A72DEA /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				E4E0BD7324A30F7B00A72DEA /* Poll.swift */,
+				E4E0BD7524A30F8800A72DEA /* PollItem.swift */,
+				E4E0BD7724A30F9100A72DEA /* User.swift */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -163,10 +183,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E4E0BD7424A30F7B00A72DEA /* Poll.swift in Sources */,
 				E4E0BD5A24A30A7F00A72DEA /* AppDelegate.swift in Sources */,
 				E4E0BD5C24A30A7F00A72DEA /* SceneDelegate.swift in Sources */,
 				E4E0BD7224A30AF000A72DEA /* ViewModel.swift in Sources */,
+				E4E0BD7B24A313FD00A72DEA /* RecordType.swift in Sources */,
 				E4E0BD5E24A30A7F00A72DEA /* ContentView.swift in Sources */,
+				E4E0BD7624A30F8800A72DEA /* PollItem.swift in Sources */,
+				E4E0BD7824A30F9100A72DEA /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
