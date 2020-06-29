@@ -19,6 +19,7 @@
 		E4E0BD7624A30F8800A72DEA /* PollItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E0BD7524A30F8800A72DEA /* PollItem.swift */; };
 		E4E0BD7824A30F9100A72DEA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E0BD7724A30F9100A72DEA /* User.swift */; };
 		E4E0BD7B24A313FD00A72DEA /* RecordType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E0BD7A24A313FD00A72DEA /* RecordType.swift */; };
+		E4E0BD7D24A8503A00A72DEA /* MockPolls.json in Resources */ = {isa = PBXBuildFile; fileRef = E4E0BD7C24A8503A00A72DEA /* MockPolls.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		E4E0BD7524A30F8800A72DEA /* PollItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollItem.swift; sourceTree = "<group>"; };
 		E4E0BD7724A30F9100A72DEA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E4E0BD7A24A313FD00A72DEA /* RecordType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordType.swift; sourceTree = "<group>"; };
+		E4E0BD7C24A8503A00A72DEA /* MockPolls.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MockPolls.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 				E4E0BD5D24A30A7F00A72DEA /* ContentView.swift */,
 				E4E0BD7124A30AF000A72DEA /* ViewModel.swift */,
 				E4E0BD7A24A313FD00A72DEA /* RecordType.swift */,
+				E4E0BD7C24A8503A00A72DEA /* MockPolls.json */,
 				E4E0BD7924A310D900A72DEA /* Data */,
 				E4E0BD5F24A30A8400A72DEA /* Assets.xcassets */,
 				E4E0BD6424A30A8400A72DEA /* LaunchScreen.storyboard */,
@@ -172,6 +175,7 @@
 			files = (
 				E4E0BD6624A30A8400A72DEA /* LaunchScreen.storyboard in Resources */,
 				E4E0BD6324A30A8400A72DEA /* Preview Assets.xcassets in Resources */,
+				E4E0BD7D24A8503A00A72DEA /* MockPolls.json in Resources */,
 				E4E0BD6024A30A8400A72DEA /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

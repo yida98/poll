@@ -12,15 +12,34 @@ import CloudKit
 class User: Hashable {
     
     var accountName: String
-    var polls: Set<Poll>
-    var votedFor: Set<PollItem>
-    var pollsSeen: Set<Poll>
+    var polls: [CKRecord.Reference]
+    var votedFor: Set<CKRecord.Reference>
+    var pollsSeen: Set<CKRecord.Reference>
     
-    init() {
+    var record: CKRecord
+    
+    init(record: CKRecord) {
         self.accountName = ViewModel.shared.userCKName
-        self.polls = Set<Poll>()
-        self.votedFor = Set<PollItem>()
-        self.pollsSeen = Set<Poll>()
+        self.polls = record[User.UserKeys.polls.rawValue] as! [CKRecord.Reference]
+        self.votedFor = record[User.UserKeys.votedFor.rawValue] as! Set<CKRecord.Reference>
+        self.pollsSeen = record[User.UserKeys.pollsSeen.rawValue] as! Set<CKRecord.Reference>
+        
+        self.record = record
+    }
+    
+    static func create(with name: String = ViewModel.shared.userCKName) -> CKRecord {
+        let record = CKRecord(recordType: RecordType.user.rawValue)
+        record.setValue(name, forKey: UserKeys.accountName.rawValue)
+        ViewModel.save(record)
+        
+        return record
+    }
+        
+    enum UserKeys: String {
+        case accountName = "AccountName"
+        case polls = "Polls"
+        case votedFor = "VotedFor"
+        case pollsSeen = "PollsSeen"
     }
     
     // MARK: Hashability

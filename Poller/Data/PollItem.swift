@@ -13,13 +13,36 @@ class PollItem: Hashable {
     
     var title: String
     var insertionIndex: Int?
-    var poll: Poll
-    var votedBy: Set<User>
+    var poll: CKRecord.Reference
+    var votedBy: Set<CKRecord.Reference>
     
-    init(title: String, parent: Poll) {
-        self.title = title
-        self.poll = parent
-        self.votedBy = Set<User>()
+    var record: CKRecord
+    
+    init(record: CKRecord) {
+        self.title = record[PollItemKeys.title.rawValue] as! String
+        self.poll = record.parent!
+        self.votedBy = record[PollItemKeys.poll.rawValue] as! Set<CKRecord.Reference>
+        
+        self.record = record
+    }
+    
+    static func create(title: String, parent: CKRecord) -> CKRecord {
+        let record = CKRecord(recordType: RecordType.pollItem.rawValue)
+        record.setValue(title, forKey: PollItemKeys.title.rawValue)
+        
+        record.setParent(parent.recordID)
+//        let parentRef = CKRecord.Reference(recordID: parent, action: .deleteSelf)
+//        record.setValue(parentRef, forKey: PollItemKeys.poll.rawValue)
+//        record.setValue(self.votedBy, forKey: PollItemKeys.votedBy.rawValue)
+        
+        ViewModel.save(record)
+        return record
+    }
+    
+    enum PollItemKeys: String {
+        case title = "Title"
+        case poll = "Poll"
+        case votedBy = "VotedBy"
     }
     
     // MARK: Hashability

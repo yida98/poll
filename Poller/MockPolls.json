@@ -1,0 +1,34 @@
+[
+    {
+        "title": "What should I eat today?",
+        "creator": "Yoshida",
+        "pollItems": ["Ramen", "Lasagne",
+                        "don't eat anything, its time to fast!",
+                        "Broccolini Salad", "Maze Soba"]
+    },
+    {
+        "title": "Should I beat up my annoying sibling?",
+        "creator": "Yamatato",
+        "pollItems": ["Yes", "Yes", "Definitely", "No..."]
+    },
+    {
+        "title": "School project choice?",
+        "creator": "Yohonda",
+        "pollItems": ["George bush", "Benjamin Franklin",
+                        "Barack Obama", "Jane Eyre",
+                        "John Green", "Michael Jackson",
+                        "Mr. World Wide"
+                    ]
+    },
+    {
+        "title": "I feel constantly undervalued by my parents. They always treate my sister much better than they treat me even though I do everything they ask for EVERY. SINGLE. DAY. I honestly don't even know what to do anymore!!! Any advice?",
+        "creator": "Yamaha",
+        "pollItems": ["Yes", "No"]
+    },
+    {
+        "title": "Should I get a dog or cat?",
+        "creator": "Yolando",
+        "pollItems": ["Dog", "or", "Cat", "Ferret", "Fox"]
+    }
+]
+

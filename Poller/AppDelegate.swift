@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CloudKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,6 +16,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        AppDelegate.decodeMockPolls()
+        
         return true
     }
 
@@ -31,6 +35,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
+    
+    
+      static func decodeMockPolls() {
+          let url = Bundle.main.url(forResource: "mockPolls", withExtension: "json")!
+          let data = try! Data(contentsOf: url)
+          let decodedJSON = try! JSONSerialization.jsonObject(with: data, options: [])
+          
+          var polls: [Poll] = [Poll]() // TODO: Put this array somewhere?? or just leave them in iCloud
+          
+          if let listOfPolls = decodedJSON as? [Dictionary<String, Any>] {
+              for pollDictionary in listOfPolls {
+                  var title = ""
+                  var creator: CKRecord?
+                  var pollItems = Array<String>()
+                  for key in pollDictionary.keys {
+                      switch(key){
+                      case "title":
+                          title = pollDictionary[key] as! String
+                      case "creator":
+                          guard let name = pollDictionary[key] as? String else {
+                             fatalError("Poll Items not iterable")
+                          }
+                          creator = User.create(with: name)
+                      case "pollItems":
+                          guard let items = pollDictionary[key] as? Array<String> else {
+                              fatalError("Poll Items not iterable")
+                          }
+                          pollItems = items
+                      default:
+                          break
+                      }
+                  }
+                  let pollRecord = Poll.create(title: title, creator: creator!)
+                  var pollItemRecord = [CKRecord]()
+                  for item in pollItems {
+                      pollItemRecord.append(PollItem.create(title: item, parent: pollRecord))
+                  }
+                  let poll = Poll(record: pollRecord)
+                  poll.addPollItems(itemRecords: pollItemRecord)
+                  polls.append(poll)
+              }
+              ViewModel.mockPolls = polls
+          }
+      }
 
 
 }
