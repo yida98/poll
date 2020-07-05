@@ -38,11 +38,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     
       static func decodeMockPolls() {
-          let url = Bundle.main.url(forResource: "mockPolls", withExtension: "json")!
+          let url = Bundle.main.url(forResource: "MockPolls", withExtension: "json")!
           let data = try! Data(contentsOf: url)
           let decodedJSON = try! JSONSerialization.jsonObject(with: data, options: [])
           
-          var polls: [Poll] = [Poll]() // TODO: Put this array somewhere?? or just leave them in iCloud
+          var polls: [Poll] = [Poll]()
           
           if let listOfPolls = decodedJSON as? [Dictionary<String, Any>] {
               for pollDictionary in listOfPolls {

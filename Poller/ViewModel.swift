@@ -15,6 +15,10 @@ class ViewModel {
     
     static var publicContainer = CKContainer.default().publicCloudDatabase
     
+    init() {
+        print(ViewModel.mockPolls)
+    }
+    
     // MARK: View Model
     
     var currPollArray: [Poll]?
@@ -41,7 +45,9 @@ class ViewModel {
     
     // MARK: CKRecord methods
     
-    static func save(_ record: CKRecord) { // This is only for one record
+    /// Saves one record into the public container
+    /// - Parameter record: One CKRecord to save
+    static func save(_ record: CKRecord) {
         ViewModel.publicContainer.save(record) { (record, error) in
             if let error = error {
                 // TODO: Error handling
@@ -69,8 +75,9 @@ class ViewModel {
         let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: delRecords)
         operation.savePolicy = CKModifyRecordsOperation.RecordSavePolicy.changedKeys
         
-        operation.modifyRecordsCompletionBlock = { records, recordIDs, error in
+        operation.modifyRecordsCompletionBlock = { savedRecords, deletedIDs, error in
             // TODO: Completion block
+            debugPrint("Records saved: \(savedRecords) \n Records deleted: \(deletedIDs)")
         }
         
         ViewModel.publicContainer.add(operation)
@@ -95,6 +102,24 @@ class ViewModel {
             // results.count
             completionHandler(results)
         }
+        ViewModel.publicContainer.add(operation)
+    }
+    
+    
+    static func deleteAllRecords(of type: RecordType) {
+        let predicate = NSPredicate(value: true)
+        let query = CKQuery(recordType: type.rawValue, predicate: predicate)
+        let operation = CKQueryOperation(query: query)
+        
+        var results = [CKRecord.ID]()
+        operation.recordFetchedBlock = { record in
+            results.append(record.recordID)
+        }
+        operation.completionBlock = {
+            debugPrint("delete time")
+            ViewModel.batchSave(save: [], delete: results)
+        }
+        
         ViewModel.publicContainer.add(operation)
     }
     

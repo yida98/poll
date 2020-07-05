@@ -21,8 +21,16 @@ class Poll: Hashable {
     
     init(record: CKRecord) {
         self.title = record[PollKeys.title.rawValue] as! String
-        self.pollItems = record[PollKeys.pollItems.rawValue] as! [CKRecord.Reference]
-        self.seenBy = record[PollKeys.seenBy.rawValue] as! Set<CKRecord.Reference>
+        if let _ = record[PollKeys.pollItems.rawValue] as? [CKRecord.Reference] {
+            self.pollItems = record[PollKeys.pollItems.rawValue] as! [CKRecord.Reference]
+        } else {
+            self.pollItems = [CKRecord.Reference]()
+        }
+        if let seenBy = record[PollKeys.seenBy.rawValue] as? Set<CKRecord.Reference> {
+            self.seenBy = seenBy
+        } else {
+            self.seenBy = Set<CKRecord.Reference>()
+        }
         self.creator = record.parent!
         
         self.record = record
