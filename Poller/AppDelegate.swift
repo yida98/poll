@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         AppDelegate.decodeMockPolls()
-        
+//        ViewModel.deleteAllRecords(of: RecordType.all)
         return true
     }
 
@@ -37,48 +37,49 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     
-      static func decodeMockPolls() {
-          let url = Bundle.main.url(forResource: "MockPolls", withExtension: "json")!
-          let data = try! Data(contentsOf: url)
-          let decodedJSON = try! JSONSerialization.jsonObject(with: data, options: [])
-          
-          var polls: [Poll] = [Poll]()
-          
-          if let listOfPolls = decodedJSON as? [Dictionary<String, Any>] {
-              for pollDictionary in listOfPolls {
-                  var title = ""
-                  var creator: CKRecord?
-                  var pollItems = Array<String>()
-                  for key in pollDictionary.keys {
-                      switch(key){
-                      case "title":
-                          title = pollDictionary[key] as! String
-                      case "creator":
-                          guard let name = pollDictionary[key] as? String else {
-                             fatalError("Poll Items not iterable")
-                          }
-                          creator = User.create(with: name)
-                      case "pollItems":
-                          guard let items = pollDictionary[key] as? Array<String> else {
-                              fatalError("Poll Items not iterable")
-                          }
-                          pollItems = items
-                      default:
-                          break
-                      }
-                  }
-                  let pollRecord = Poll.create(title: title, creator: creator!)
-                  var pollItemRecord = [CKRecord]()
-                  for item in pollItems {
-                      pollItemRecord.append(PollItem.create(title: item, parent: pollRecord))
-                  }
-                  let poll = Poll(record: pollRecord)
-                  poll.addPollItems(itemRecords: pollItemRecord)
-                  polls.append(poll)
-              }
-              ViewModel.mockPolls = polls
-          }
-      }
+    static private func decodeMockPolls() {
+        let url = Bundle.main.url(forResource: "MockPolls", withExtension: "json")!
+        let data = try! Data(contentsOf: url)
+        let decodedJSON = try! JSONSerialization.jsonObject(with: data, options: [])
+
+        var polls: [Poll] = [Poll]()
+
+        if let listOfPolls = decodedJSON as? [Dictionary<String, Any>] {
+            for pollDictionary in listOfPolls {
+                var title = ""
+                var creator: CKRecord?
+                var pollItems = Array<String>()
+                for key in pollDictionary.keys {
+                    switch(key){
+                    case "title":
+                        title = pollDictionary[key] as! String
+                    case "creator":
+                        guard let name = pollDictionary[key] as? String else {
+                            fatalError("Poll Items not iterable")
+                        }
+                        creator = User.create(with: name)
+                    case "pollItems":
+                        guard let items = pollDictionary[key] as? Array<String> else {
+                            fatalError("Poll Items not iterable")
+                        }
+                        pollItems = items
+                    default:
+                        break
+                    }
+                }
+                let pollRecord = Poll.create(title: title, creator: creator!)
+                var pollItemRecord = [CKRecord]()
+                for item in pollItems {
+                    pollItemRecord.append(PollItem.create(title: item, parent: pollRecord))
+                    debugPrint("second")
+                }
+                let poll = Poll(record: pollRecord)
+                poll.addPollItems(itemRecords: pollItemRecord)
+                polls.append(poll)
+            }
+            ViewModel.mockPolls = polls
+        }
+    }
 
 
 }

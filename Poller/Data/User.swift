@@ -30,7 +30,9 @@ class User: Hashable {
     static func create(with name: String = ViewModel.shared.userCKName) -> CKRecord {
         let record = CKRecord(recordType: RecordType.user.rawValue)
         record.setValue(name, forKey: UserKeys.accountName.rawValue)
-        ViewModel.save(record)
+        
+        ViewModel.batchSave(save: [record], delete: [])
+        //ViewModel.save(record)
         
         return record
     }

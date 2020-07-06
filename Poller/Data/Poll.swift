@@ -31,8 +31,11 @@ class Poll: Hashable {
         } else {
             self.seenBy = Set<CKRecord.Reference>()
         }
-        self.creator = record.parent!
-        
+        guard let parent = record[PollKeys.creator.rawValue] as? CKRecord.Reference else {
+            fatalError("This Poll doesn't belong to any User!")
+        }
+        self.creator = parent
+
         self.record = record
     }
     
@@ -40,11 +43,11 @@ class Poll: Hashable {
         let record = CKRecord(recordType: RecordType.poll.rawValue)
         record.setValue(title, forKey: PollKeys.title.rawValue)
         
-        record.setParent(creator.recordID)
-//        let creatorReference = CKRecord.Reference(recordID: creator, action: .deleteSelf)
-//        record.setValue(creatorReference, forKey: PollKeys.creator.rawValue)
+        let creatorReference = CKRecord.Reference(recordID: creator.recordID, action: .deleteSelf)
+        record.setValue(creatorReference, forKey: PollKeys.creator.rawValue)
 
-        ViewModel.save(record)
+        ViewModel.batchSave(save: [record], delete: [])
+//        ViewModel.save(record)
         return record
     }
 

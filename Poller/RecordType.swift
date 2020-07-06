@@ -14,4 +14,6 @@ enum RecordType: String {
     case pollItem = "PollItem"
     case user = "User"
     
+    case all
+    
 }

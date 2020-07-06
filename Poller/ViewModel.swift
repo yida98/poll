@@ -13,27 +13,29 @@ class ViewModel {
     
     static let shared = ViewModel()
     
-    static var publicContainer = CKContainer.default().publicCloudDatabase
+    static var publicDB = CKContainer.default().publicCloudDatabase
     
-    init() {
+    private init() {
+        print("private init time")
+        
+//        initFetchPollArray()
         print(ViewModel.mockPolls)
     }
     
     // MARK: View Model
     
-    var currPollArray: [Poll]?
+    var currPollArray: [Poll] = [Poll]()
     static var mockPolls: [Poll] = [Poll]() // This will effectively be overwritten at app launch
     
     /// Used to originally populate the currPollArray
     private func initFetchPollArray() {
         ViewModel.queryPoll(with: NSPredicate.wildPollPredicate(), limit: 3) { records in
             // TODO: Handle these records
-            self.currPollArray = [Poll]()
             for record in records {
-                self.currPollArray!.append(Poll(record: record))
+                self.currPollArray.append(Poll(record: record))
             }
-            let pollsNeeded = 3 - self.currPollArray!.count
-            self.currPollArray!.append(contentsOf: ViewModel.mockPolls[0..<pollsNeeded])
+            let pollsNeeded = 3 - self.currPollArray.count
+            self.currPollArray.append(contentsOf: ViewModel.mockPolls[0..<pollsNeeded])
         }
     }
     
@@ -48,19 +50,24 @@ class ViewModel {
     /// Saves one record into the public container
     /// - Parameter record: One CKRecord to save
     static func save(_ record: CKRecord) {
-        ViewModel.publicContainer.save(record) { (record, error) in
+        let group = DispatchGroup()
+        group.enter()
+        ViewModel.publicDB.save(record) { (savedRecord, error) in
             if let error = error {
                 // TODO: Error handling
-                fatalError("\(error.localizedDescription)")
+                fatalError("Encountered \(error) while singularly saving \(record)")
             } else {
                 // TODO: What happens after a record is saved
-                debugPrint("CKRecord of type \(record!.recordType.debugDescription) successfully saved")
+                debugPrint("CKRecord of type \(savedRecord!.recordType.debugDescription) successfully saved")
+                debugPrint("always first")
+                group.leave()
             }
         }
+        group.wait()
     }
     
     static func fetch(_ recordID: CKRecord.ID) {
-        ViewModel.publicContainer.fetch(withRecordID: recordID) { (record, error) in
+        ViewModel.publicDB.fetch(withRecordID: recordID) { (record, error) in
             if let error = error {
                 // TODO: Error handling
                 fatalError("\(error.localizedDescription)")
@@ -74,13 +81,22 @@ class ViewModel {
     static func batchSave(save records: [CKRecord], delete delRecords: [CKRecord.ID]) {
         let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: delRecords)
         operation.savePolicy = CKModifyRecordsOperation.RecordSavePolicy.changedKeys
+        operation.isAtomic = false
         
-        operation.modifyRecordsCompletionBlock = { savedRecords, deletedIDs, error in
-            // TODO: Completion block
-            debugPrint("Records saved: \(savedRecords) \n Records deleted: \(deletedIDs)")
+        debugPrint("Attempting batch save")
+        
+        operation.perRecordCompletionBlock = { record, error in
+            debugPrint("Attempting to save \(record)")
+            if let _ = error {
+                fatalError("Encountered \(error!) trying to save \(record)")
+            }
         }
         
-        ViewModel.publicContainer.add(operation)
+        operation.modifyRecordsCompletionBlock = { savedRecords, deletedIDs, error in
+            debugPrint("Records saved: \(String(describing: savedRecords)) \n Records deleted: \(String(describing: deletedIDs))")
+        }
+        
+        ViewModel.publicDB.add(operation)
     }
     
     private static func queryPoll(with predicate: NSPredicate, limit: Int = 1, completionHandler: @escaping ([CKRecord]) -> Void) {
@@ -102,25 +118,32 @@ class ViewModel {
             // results.count
             completionHandler(results)
         }
-        ViewModel.publicContainer.add(operation)
+        ViewModel.publicDB.add(operation)
     }
     
     
     static func deleteAllRecords(of type: RecordType) {
-        let predicate = NSPredicate(value: true)
-        let query = CKQuery(recordType: type.rawValue, predicate: predicate)
-        let operation = CKQueryOperation(query: query)
-        
-        var results = [CKRecord.ID]()
-        operation.recordFetchedBlock = { record in
-            results.append(record.recordID)
+        switch type {
+        case .all:
+            ViewModel.deleteAllRecords(of: RecordType.user)
+            ViewModel.deleteAllRecords(of: RecordType.poll)
+            ViewModel.deleteAllRecords(of: RecordType.pollItem)
+        default:
+            let predicate = NSPredicate(value: true)
+            let query = CKQuery(recordType: type.rawValue, predicate: predicate)
+            let operation = CKQueryOperation(query: query)
+            
+            var results = [CKRecord.ID]()
+            operation.recordFetchedBlock = { record in
+                results.append(record.recordID)
+            }
+            operation.completionBlock = {
+                debugPrint("delete time")
+                ViewModel.batchSave(save: [], delete: results)
+            }
+            
+            ViewModel.publicDB.add(operation)
         }
-        operation.completionBlock = {
-            debugPrint("delete time")
-            ViewModel.batchSave(save: [], delete: results)
-        }
-        
-        ViewModel.publicContainer.add(operation)
     }
     
     // MARK: Static variables

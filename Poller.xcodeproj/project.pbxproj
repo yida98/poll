@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E42AC55424B2C2AE00E204BD /* CloudKitHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42AC55324B2C2AE00E204BD /* CloudKitHelper.swift */; };
 		E4E0BD5A24A30A7F00A72DEA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E0BD5924A30A7F00A72DEA /* AppDelegate.swift */; };
 		E4E0BD5C24A30A7F00A72DEA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E0BD5B24A30A7F00A72DEA /* SceneDelegate.swift */; };
 		E4E0BD5E24A30A7F00A72DEA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E0BD5D24A30A7F00A72DEA /* ContentView.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E42AC55324B2C2AE00E204BD /* CloudKitHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitHelper.swift; sourceTree = "<group>"; };
 		E4E0BD5624A30A7F00A72DEA /* Poller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Poller.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4E0BD5924A30A7F00A72DEA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E4E0BD5B24A30A7F00A72DEA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				E4E0BD5B24A30A7F00A72DEA /* SceneDelegate.swift */,
 				E4E0BD5D24A30A7F00A72DEA /* ContentView.swift */,
 				E4E0BD7124A30AF000A72DEA /* ViewModel.swift */,
+				E42AC55324B2C2AE00E204BD /* CloudKitHelper.swift */,
 				E4E0BD7A24A313FD00A72DEA /* RecordType.swift */,
 				E4E0BD7C24A8503A00A72DEA /* MockPolls.json */,
 				E4E0BD7924A310D900A72DEA /* Data */,
@@ -195,6 +198,7 @@
 				E4E0BD5E24A30A7F00A72DEA /* ContentView.swift in Sources */,
 				E4E0BD7624A30F8800A72DEA /* PollItem.swift in Sources */,
 				E4E0BD7824A30F9100A72DEA /* User.swift in Sources */,
+				E42AC55424B2C2AE00E204BD /* CloudKitHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

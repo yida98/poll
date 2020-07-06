@@ -20,9 +20,12 @@ class PollItem: Hashable {
     
     init(record: CKRecord) {
         self.title = record[PollItemKeys.title.rawValue] as! String
-        self.poll = record.parent!
-        self.votedBy = record[PollItemKeys.poll.rawValue] as! Set<CKRecord.Reference>
-        
+        self.votedBy = record[PollItemKeys.votedBy.rawValue] as! Set<CKRecord.Reference>
+        guard let poll = record[PollItemKeys.poll.rawValue] as? CKRecord.Reference else {
+            fatalError("This PollItem doesn't belong to any Poll!")
+        }
+        self.poll = poll
+
         self.record = record
     }
     
@@ -30,12 +33,14 @@ class PollItem: Hashable {
         let record = CKRecord(recordType: RecordType.pollItem.rawValue)
         record.setValue(title, forKey: PollItemKeys.title.rawValue)
         
-        record.setParent(parent.recordID)
-//        let parentRef = CKRecord.Reference(recordID: parent, action: .deleteSelf)
-//        record.setValue(parentRef, forKey: PollItemKeys.poll.rawValue)
+//        record.setParent(parent.recordID)
+        let parentRef = CKRecord.Reference(recordID: parent.recordID, action: .deleteSelf)
+        record.setValue(parentRef, forKey: PollItemKeys.poll.rawValue)
 //        record.setValue(self.votedBy, forKey: PollItemKeys.votedBy.rawValue)
         
-        ViewModel.save(record)
+        ViewModel.batchSave(save: [record], delete: [])
+
+//        ViewModel.save(record)
         return record
     }
     
