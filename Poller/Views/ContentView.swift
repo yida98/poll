@@ -9,8 +9,16 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @ObservedObject var viewModel: ViewModel = ViewModel.shared
+
     var body: some View {
-        Text("Hello, World!")
+        VStack{
+            Spacer()
+            Text("Hello, World!")
+            MenuBarView()
+        }.background(Color.navy)
+        .edgesIgnoringSafeArea(.all)
     }
 }
 

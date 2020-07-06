@@ -9,7 +9,7 @@
 import Foundation
 import CloudKit
 
-class ViewModel {
+class ViewModel: ObservableObject {
     
     static let shared = ViewModel()
     
@@ -170,6 +170,43 @@ class ViewModel {
         group.wait()
         return user
     }()
+    
+    
+    // MARK: Menu Model
+        
+    @Published var cardDisplaying: Bool = true
+    @Published var userDisplaying: Bool = false
+    
+    @Published var currMiddleImg: String = "AddPoll"
+    
+    func tapCard() {
+        if currMiddleImg != "bigX" {
+            cardDisplaying = true
+            userDisplaying = false
+        }
+    }
+    
+    func tapUser() {
+        if currMiddleImg != "bigX" {
+            cardDisplaying = false
+            userDisplaying = true
+        }
+    }
+    
+    func newPoll() {
+        if cardDisplaying == false && userDisplaying == false {
+            resetMiddelImg()
+            tapCard()
+        } else {
+            currMiddleImg = "bigX"
+            cardDisplaying = false
+            userDisplaying = false
+        }
+    }
+    
+    private func resetMiddelImg() {
+        currMiddleImg = "AddPoll"
+    }
     
 }
 
