@@ -8,8 +8,9 @@
 
 import Foundation
 import CloudKit
+import PromiseKit
 
-class Poll: Hashable {
+class Poll: Hashable, ObservableObject {
     
     var title: String
     var pollItems: [CKRecord.Reference]
@@ -90,6 +91,22 @@ extension Poll {
         var saves = itemRecords
         saves.append(self.record)
         ViewModel.batchSave(save: saves, delete: [])
+    }
+    
+    func getPollItems() -> [PollItem] {
+        var results = [PollItem]()
+        for reference in self.pollItems {
+            getPollItem(with: reference.recordID) { (fetchedRecord) in
+                results.append(PollItem(record: fetchedRecord))
+            }
+        }
+        return results
+    }
+    
+    private func getPollItem(with recordID: CKRecord.ID, completionHandler: @escaping (CKRecord) -> Void) {
+        ViewModel.fetch(recordID) { (fetchedRecord) in
+            completionHandler(fetchedRecord)
+        }
     }
     
 }

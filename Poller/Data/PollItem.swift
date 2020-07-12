@@ -9,7 +9,7 @@
 import Foundation
 import CloudKit
 
-class PollItem: Hashable {
+class PollItem: Hashable, ObservableObject {
     
     var title: String
     var insertionIndex: Int?

@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AE99CCFB440CD595BEE9C04F /* Pods_Poller.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 57240290BE044ACD4AD23E45 /* Pods_Poller.framework */; };
 		E42AC55424B2C2AE00E204BD /* CloudKitHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42AC55324B2C2AE00E204BD /* CloudKitHelper.swift */; };
 		E42AC55624B2F53C00E204BD /* ColorExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42AC55524B2F53C00E204BD /* ColorExt.swift */; };
 		E42AC55824B2F57600E204BD /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42AC55724B2F57600E204BD /* MenuBarView.swift */; };
@@ -26,9 +27,16 @@
 		E4E0BD7824A30F9100A72DEA /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E0BD7724A30F9100A72DEA /* User.swift */; };
 		E4E0BD7B24A313FD00A72DEA /* RecordType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E0BD7A24A313FD00A72DEA /* RecordType.swift */; };
 		E4E0BD7D24A8503A00A72DEA /* MockPolls.json in Resources */ = {isa = PBXBuildFile; fileRef = E4E0BD7C24A8503A00A72DEA /* MockPolls.json */; };
+		E4E5513C24B2FCA70052BAE0 /* PollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E5513B24B2FCA70052BAE0 /* PollView.swift */; };
+		E4E5513E24B2FCD90052BAE0 /* CardSwipeEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E5513D24B2FCD90052BAE0 /* CardSwipeEffect.swift */; };
+		E4E5514024B2FE740052BAE0 /* RoundedTitleGeoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E5513F24B2FE740052BAE0 /* RoundedTitleGeoView.swift */; };
+		E4E5514224B3C8C90052BAE0 /* PollWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E5514124B3C8C90052BAE0 /* PollWrapperView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1534E57E9839A22E313F5497 /* Pods-Poller.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Poller.release.xcconfig"; path = "Target Support Files/Pods-Poller/Pods-Poller.release.xcconfig"; sourceTree = "<group>"; };
+		57240290BE044ACD4AD23E45 /* Pods_Poller.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Poller.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C85AA17A81199591FDD3C3F5 /* Pods-Poller.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Poller.debug.xcconfig"; path = "Target Support Files/Pods-Poller/Pods-Poller.debug.xcconfig"; sourceTree = "<group>"; };
 		E42AC55324B2C2AE00E204BD /* CloudKitHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitHelper.swift; sourceTree = "<group>"; };
 		E42AC55524B2F53C00E204BD /* ColorExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExt.swift; sourceTree = "<group>"; };
 		E42AC55724B2F57600E204BD /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
@@ -51,6 +59,10 @@
 		E4E0BD7724A30F9100A72DEA /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E4E0BD7A24A313FD00A72DEA /* RecordType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordType.swift; sourceTree = "<group>"; };
 		E4E0BD7C24A8503A00A72DEA /* MockPolls.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MockPolls.json; sourceTree = "<group>"; };
+		E4E5513B24B2FCA70052BAE0 /* PollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollView.swift; sourceTree = "<group>"; };
+		E4E5513D24B2FCD90052BAE0 /* CardSwipeEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSwipeEffect.swift; sourceTree = "<group>"; };
+		E4E5513F24B2FE740052BAE0 /* RoundedTitleGeoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTitleGeoView.swift; sourceTree = "<group>"; };
+		E4E5514124B3C8C90052BAE0 /* PollWrapperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollWrapperView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,18 +71,32 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4E0BD7024A30A9B00A72DEA /* CloudKit.framework in Frameworks */,
+				AE99CCFB440CD595BEE9C04F /* Pods_Poller.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D58B5F42B6EC3A2C6007B593 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C85AA17A81199591FDD3C3F5 /* Pods-Poller.debug.xcconfig */,
+				1534E57E9839A22E313F5497 /* Pods-Poller.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		E42AC55924B2F57C00E204BD /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				E4E0BD5D24A30A7F00A72DEA /* ContentView.swift */,
+				E4E5514124B3C8C90052BAE0 /* PollWrapperView.swift */,
+				E4E5513B24B2FCA70052BAE0 /* PollView.swift */,
+				E4E5513D24B2FCD90052BAE0 /* CardSwipeEffect.swift */,
 				E42AC56324B2F7B400E204BD /* Menu Bar */,
 				E42AC55E24B2F65C00E204BD /* RoundedGeoView.swift */,
+				E4E5513F24B2FE740052BAE0 /* RoundedTitleGeoView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -101,6 +127,7 @@
 				E4E0BD5824A30A7F00A72DEA /* Poller */,
 				E4E0BD5724A30A7F00A72DEA /* Products */,
 				E4E0BD6E24A30A9B00A72DEA /* Frameworks */,
+				D58B5F42B6EC3A2C6007B593 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -143,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				E4E0BD6F24A30A9B00A72DEA /* CloudKit.framework */,
+				57240290BE044ACD4AD23E45 /* Pods_Poller.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -164,9 +192,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E4E0BD6A24A30A8400A72DEA /* Build configuration list for PBXNativeTarget "Poller" */;
 			buildPhases = (
+				BF6F9F149D27A9ECDBD25DA3 /* [CP] Check Pods Manifest.lock */,
 				E4E0BD5224A30A7F00A72DEA /* Sources */,
 				E4E0BD5324A30A7F00A72DEA /* Frameworks */,
 				E4E0BD5424A30A7F00A72DEA /* Resources */,
+				3F6CDBD0267B1DF5260A435F /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -224,6 +254,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3F6CDBD0267B1DF5260A435F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Poller/Pods-Poller-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Poller/Pods-Poller-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Poller/Pods-Poller-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BF6F9F149D27A9ECDBD25DA3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Poller-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		E4E0BD5224A30A7F00A72DEA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -232,6 +304,8 @@
 				E42AC55F24B2F65C00E204BD /* RoundedGeoView.swift in Sources */,
 				E4E0BD7424A30F7B00A72DEA /* Poll.swift in Sources */,
 				E42AC55624B2F53C00E204BD /* ColorExt.swift in Sources */,
+				E4E5514224B3C8C90052BAE0 /* PollWrapperView.swift in Sources */,
+				E4E5514024B2FE740052BAE0 /* RoundedTitleGeoView.swift in Sources */,
 				E4E0BD5A24A30A7F00A72DEA /* AppDelegate.swift in Sources */,
 				E4E0BD5C24A30A7F00A72DEA /* SceneDelegate.swift in Sources */,
 				E42AC55B24B2F5DB00E204BD /* MenuBarItemView.swift in Sources */,
@@ -242,7 +316,9 @@
 				E42AC55D24B2F62100E204BD /* Constant.swift in Sources */,
 				E4E0BD7824A30F9100A72DEA /* User.swift in Sources */,
 				E42AC55424B2C2AE00E204BD /* CloudKitHelper.swift in Sources */,
+				E4E5513C24B2FCA70052BAE0 /* PollView.swift in Sources */,
 				E42AC55824B2F57600E204BD /* MenuBarView.swift in Sources */,
+				E4E5513E24B2FCD90052BAE0 /* CardSwipeEffect.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,6 +452,7 @@
 		};
 		E4E0BD6B24A30A8400A72DEA /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C85AA17A81199591FDD3C3F5 /* Pods-Poller.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Poller/Poller.entitlements;
@@ -397,6 +474,7 @@
 		};
 		E4E0BD6C24A30A8400A72DEA /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1534E57E9839A22E313F5497 /* Pods-Poller.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Poller/Poller.entitlements;

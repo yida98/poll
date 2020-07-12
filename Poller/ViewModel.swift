@@ -8,6 +8,7 @@
 
 import Foundation
 import CloudKit
+import Combine
 
 class ViewModel: ObservableObject {
     
@@ -29,23 +30,56 @@ class ViewModel: ObservableObject {
     
     /// Used to originally populate the currPollArray
     private func initFetchPollArray() {
-        ViewModel.queryPoll(with: NSPredicate.wildPollPredicate(), limit: 3) { records in
+        ViewModel.queryPoll(with: NSPredicate.wildPollPredicate, limit: 3)
             // TODO: Handle these records
-            for record in records {
-                self.currPollArray.append(Poll(record: record))
-            }
-            let pollsNeeded = 3 - self.currPollArray.count
-            self.currPollArray.append(contentsOf: ViewModel.mockPolls[0..<pollsNeeded])
-        }
-    }
-    
-    private static func fetchOwnPolls() {
-        ViewModel.queryPoll(with: NSPredicate.ownPollPredicate()) { records in
-            // TODO: Handle these records
-        }
+//            for record in records {
+//                self.currPollArray.append(Poll(record: record))
+//            }
+//            let pollsNeeded = 3 - self.currPollArray.count
+//            self.currPollArray.append(contentsOf: ViewModel.mockPolls[0..<pollsNeeded])
+        
     }
     
     // MARK: CKRecord methods
+    
+
+    class DisplayPolls: ObservableObject {
+            
+        @Published var polls = [Poll]()
+        
+        private let floor = 3
+        private let ceiling = 15
+        
+        init() {
+            ViewModel.queryPoll(with: NSPredicate.wildPollPredicate, limit: 15)
+        }
+        
+        /// Async calls this func to update polls array
+        /// - Parameter poll: a poll to add
+        func add(_ poll: Poll) {
+            if !polls.compactMap({ $0.record.recordID }).contains(poll.record.recordID) && polls.count <= ceiling {
+                polls.append(poll)
+            }
+        }
+        
+        func removeFirst() -> Poll {
+            let first = polls.removeFirst()
+            if polls.count <= floor {
+                repopulate()
+            }
+            return first
+        }
+        
+        private func repopulate() {
+            ViewModel.queryPoll(with: NSPredicate.wildPollPredicate, limit: 15)
+        }
+        
+    }
+        
+    var displayPolls = DisplayPolls()
+    
+    static var pollPublisher = PassthroughSubject<[Poll], Never>()
+//        .receive(on: RunLoop.main)
     
     /// Saves one record into the public container
     /// - Parameter record: One CKRecord to save
@@ -66,7 +100,7 @@ class ViewModel: ObservableObject {
         group.wait()
     }
     
-    static func fetch(_ recordID: CKRecord.ID) {
+    static func fetch(_ recordID: CKRecord.ID, completionHandler: @escaping (CKRecord) -> Void) {
         ViewModel.publicDB.fetch(withRecordID: recordID) { (record, error) in
             if let error = error {
                 // TODO: Error handling
@@ -74,6 +108,7 @@ class ViewModel: ObservableObject {
             } else {
                 // TODO: What happens after a record is fetched
                 debugPrint("CKRecord of ID \(record!.recordType.debugDescription) successfully fetched")
+                completionHandler(record!)
             }
         }
     }
@@ -99,27 +134,51 @@ class ViewModel: ObservableObject {
         ViewModel.publicDB.add(operation)
     }
     
-    private static func queryPoll(with predicate: NSPredicate, limit: Int = 1, completionHandler: @escaping ([CKRecord]) -> Void) {
+    private static func queryPoll(with predicate: NSPredicate, limit: Int = 1) {
         let query = CKQuery(recordType: RecordType.poll.rawValue, predicate: predicate)
         let operation = CKQueryOperation(query: query)
         
-        if predicate == NSPredicate.ownPollPredicate() {
+        if predicate == NSPredicate.ownPollPredicate {
             operation.resultsLimit = 3
         } else {
             operation.resultsLimit = limit // TODO: Might want to be 3
         }
-        var results = [CKRecord]()
         operation.recordFetchedBlock = { record in
-            results.append(record)
-        }
-        operation.completionBlock = {
-            // TODO: How to populate UI master poll Array?
-            // TODO: Return how many records were fetched this time around?
-            // results.count
-            completionHandler(results)
+//            pollPublisher.send(Poll(record: record))
+            ViewModel.shared.displayPolls.add(Poll(record: record))
+        
         }
         ViewModel.publicDB.add(operation)
     }
+    
+    func queryPollItems(for poll: CKRecord) {
+        let recordToMatch = CKRecord.Reference(recordID: poll.recordID, action: .none)
+        let predicate = NSPredicate(format: "%K == %@", PollItem.PollItemKeys.poll.rawValue, recordToMatch)
+        
+        ViewModel.queryPoll(with: predicate, limit: Int(Double.infinity))
+    }
+    
+    private static func queryOwnPolls() -> AnyPublisher<[CKRecord], Error> {
+        let future = Future<[CKRecord], Error> { promise in
+            let query = CKQuery(recordType: RecordType.poll.rawValue, predicate: NSPredicate.ownPollPredicate)
+            let operation = CKQueryOperation(query: query)
+            var results = [CKRecord]()
+            operation.resultsLimit = 3
+            operation.queryCompletionBlock = { cursor, error in
+                if let error = error {
+                    promise(.failure(error))
+                }
+            }
+            operation.recordFetchedBlock = { record in
+                results.append(record)
+            }
+            operation.completionBlock = {
+                promise(.success(results))
+            }
+        }
+        return future.eraseToAnyPublisher()
+    //            .map { $0.map { PollItem(record: $0) } }
+        }
     
     
     static func deleteAllRecords(of type: RecordType) {
@@ -147,6 +206,8 @@ class ViewModel: ObservableObject {
     }
     
     // MARK: Static variables
+    
+    static var userCKID: CKRecord.ID = CKRecord.ID()
     
     lazy var userCKName: String = {
         var user: String = ""
@@ -212,12 +273,16 @@ class ViewModel: ObservableObject {
 
 extension NSPredicate {
     
-    static var wildPollPredicate = {
-        return NSPredicate(format: "%K != %@ AND %K NOT CONTAINS %@", Poll.PollKeys.creator.rawValue, ViewModel.shared.userCKName, Poll.PollKeys.seenBy.rawValue, ViewModel.shared.userCKName)
+    static var wildPollPredicate: NSPredicate {
+        let recordToMatch = CKRecord.Reference(recordID: ViewModel.userCKID, action: .none)
+        return NSPredicate(format: "%K != %@ AND %K NOT CONTAINS %@", Poll.PollKeys.creator.rawValue, ViewModel.shared.userCKName, Poll.PollKeys.seenBy.rawValue, recordToMatch) // seenBy?
     }
     
-    static var ownPollPredicate = {
-        return NSPredicate(format: "%K == %@", User.UserKeys.accountName.rawValue, ViewModel.shared.userCKName)
+    static var ownPollPredicate: NSPredicate {
+        let recordToMatch = CKRecord.Reference(recordID: ViewModel.userCKID, action: .none)
+        return NSPredicate(format: "%K == %@", Poll.PollKeys.creator.rawValue, recordToMatch)
     }
     
 }
+
+

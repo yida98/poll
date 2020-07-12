@@ -9,7 +9,7 @@
 import Foundation
 import CloudKit
 
-class User: Hashable {
+class User: Hashable, ObservableObject {
     
     var accountName: String
     var polls: [CKRecord.Reference]
@@ -32,6 +32,7 @@ class User: Hashable {
         record.setValue(name, forKey: UserKeys.accountName.rawValue)
         
         ViewModel.batchSave(save: [record], delete: [])
+        ViewModel.userCKID = record.recordID
         //ViewModel.save(record)
         
         return record

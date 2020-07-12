@@ -15,7 +15,11 @@ struct ContentView: View {
     var body: some View {
         VStack{
             Spacer()
-            Text("Hello, World!")
+            ZStack {
+                ForEach(0..<3, id: \.self) {
+                    PollWrapperView(cardIndex: 0, poll: self.viewModel.displayPolls.polls[$0])
+                }
+            }
             MenuBarView()
         }.background(Color.navy)
         .edgesIgnoringSafeArea(.all)
