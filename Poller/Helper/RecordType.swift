@@ -15,5 +15,6 @@ enum RecordType: String {
     case user = "User"
     
     case all
+    case displayPolls
     
 }
