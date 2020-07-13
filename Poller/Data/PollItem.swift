@@ -38,7 +38,7 @@ class PollItem: Hashable, ObservableObject {
         record.setValue(parentRef, forKey: PollItemKeys.poll.rawValue)
 //        record.setValue(self.votedBy, forKey: PollItemKeys.votedBy.rawValue)
         
-        ViewModel.batchSave(save: [record], delete: [])
+        RecordOperation.batchSave(save: [record], delete: [])
 
 //        ViewModel.save(record)
         return record

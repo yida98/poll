@@ -31,7 +31,7 @@ class User: Hashable, ObservableObject {
         let record = CKRecord(recordType: RecordType.user.rawValue)
         record.setValue(name, forKey: UserKeys.accountName.rawValue)
         
-        ViewModel.batchSave(save: [record], delete: [])
+        RecordOperation.batchSave(save: [record], delete: [])
         ViewModel.userCKID = record.recordID
         //ViewModel.save(record)
         

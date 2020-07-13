@@ -10,7 +10,7 @@ import SwiftUI
 
 struct MenuBarItemView: View {
     
-    @ObservedObject var viewModel: ViewModel = ViewModel.shared
+    @ObservedObject var menuModel: MenuModel = MenuModel.shared
 
     var body: some View {
         HStack {
@@ -18,13 +18,13 @@ struct MenuBarItemView: View {
                 Spacer()
                     .frame(width: Constant.menuBarItemSize.width, height: 4)
                     .background(RoundedGeoView(color: Color.white, tl: 0, tr: 0, bl: 4, br: 4))
-                    .opacity(viewModel.cardDisplaying ? 1 : 0)
+                    .opacity(menuModel.cardDisplaying ? 1 : 0)
                 Spacer()
                 Image("PollStack")
             }.frame(width: Constant.menuBarItemSize.width, height: Constant.menuBarItemSize.height)
-                .opacity(viewModel.cardDisplaying ? 1 : 0.3)
+                .opacity(menuModel.cardDisplaying ? 1 : 0.3)
                 .onTapGesture {
-                    self.viewModel.tapCard()
+                    self.menuModel.tapCard()
             }
             
             Spacer()
@@ -33,13 +33,13 @@ struct MenuBarItemView: View {
                 Spacer()
                     .frame(width: Constant.menuBarItemSize.width, height: 4)
                     .background(RoundedGeoView(color: Color.white, tl: 0, tr: 0, bl: 4, br: 4))
-                    .opacity(viewModel.userDisplaying ? 1 : 0)
+                    .opacity(menuModel.userDisplaying ? 1 : 0)
                 Spacer()
                 Image("YourPolls")
             }.frame(width: Constant.menuBarItemSize.width, height: Constant.menuBarItemSize.height)
-                .opacity(viewModel.userDisplaying ? 1 : 0.3)
+                .opacity(menuModel.userDisplaying ? 1 : 0.3)
                     .onTapGesture {
-                        self.viewModel.tapUser()
+                        self.menuModel.tapUser()
                 }
         }.frame(width: Constant.screenSize.width - 200)
     }

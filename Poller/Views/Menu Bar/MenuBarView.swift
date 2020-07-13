@@ -10,7 +10,7 @@ import SwiftUI
 
 struct MenuBarView: View {
     
-    @ObservedObject var viewModel: ViewModel = ViewModel.shared
+    @ObservedObject var menuModel: MenuModel = MenuModel.shared
 
     var body: some View {
         
@@ -22,9 +22,9 @@ struct MenuBarView: View {
                         , height: 68)
                     .foregroundColor(Color.darkOrange)
                     .shadow(radius: 6)
-                Image(viewModel.currMiddleImg)
+                Image(menuModel.currMiddleImg)
             }.onTapGesture {
-                self.viewModel.newPoll()
+                self.menuModel.newPoll()
             }
             .offset(y: -9)
             Spacer()

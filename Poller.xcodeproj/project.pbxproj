@@ -14,6 +14,9 @@
 		E42AC55B24B2F5DB00E204BD /* MenuBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42AC55A24B2F5DB00E204BD /* MenuBarItemView.swift */; };
 		E42AC55D24B2F62100E204BD /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42AC55C24B2F62100E204BD /* Constant.swift */; };
 		E42AC55F24B2F65C00E204BD /* RoundedGeoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42AC55E24B2F65C00E204BD /* RoundedGeoView.swift */; };
+		E4B5DF1724BBCDDB00E3B911 /* DisplayPollsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B5DF1624BBCDDB00E3B911 /* DisplayPollsModel.swift */; };
+		E4B5DF1B24BBD1B800E3B911 /* RecordOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B5DF1A24BBD1B800E3B911 /* RecordOperation.swift */; };
+		E4B5DF1D24BBD46900E3B911 /* MenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B5DF1C24BBD46900E3B911 /* MenuModel.swift */; };
 		E4E0BD5A24A30A7F00A72DEA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E0BD5924A30A7F00A72DEA /* AppDelegate.swift */; };
 		E4E0BD5C24A30A7F00A72DEA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E0BD5B24A30A7F00A72DEA /* SceneDelegate.swift */; };
 		E4E0BD5E24A30A7F00A72DEA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E0BD5D24A30A7F00A72DEA /* ContentView.swift */; };
@@ -43,6 +46,9 @@
 		E42AC55A24B2F5DB00E204BD /* MenuBarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarItemView.swift; sourceTree = "<group>"; };
 		E42AC55C24B2F62100E204BD /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		E42AC55E24B2F65C00E204BD /* RoundedGeoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedGeoView.swift; sourceTree = "<group>"; };
+		E4B5DF1624BBCDDB00E3B911 /* DisplayPollsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayPollsModel.swift; sourceTree = "<group>"; };
+		E4B5DF1A24BBD1B800E3B911 /* RecordOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordOperation.swift; sourceTree = "<group>"; };
+		E4B5DF1C24BBD46900E3B911 /* MenuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuModel.swift; sourceTree = "<group>"; };
 		E4E0BD5624A30A7F00A72DEA /* Poller.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Poller.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4E0BD5924A30A7F00A72DEA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E4E0BD5B24A30A7F00A72DEA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -146,6 +152,9 @@
 				E4E0BD5924A30A7F00A72DEA /* AppDelegate.swift */,
 				E4E0BD5B24A30A7F00A72DEA /* SceneDelegate.swift */,
 				E4E0BD7124A30AF000A72DEA /* ViewModel.swift */,
+				E4B5DF1624BBCDDB00E3B911 /* DisplayPollsModel.swift */,
+				E4B5DF1C24BBD46900E3B911 /* MenuModel.swift */,
+				E4B5DF1A24BBD1B800E3B911 /* RecordOperation.swift */,
 				E4E0BD7C24A8503A00A72DEA /* MockPolls.json */,
 				E42AC56224B2F70300E204BD /* Helper */,
 				E42AC55924B2F57C00E204BD /* Views */,
@@ -302,6 +311,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E42AC55F24B2F65C00E204BD /* RoundedGeoView.swift in Sources */,
+				E4B5DF1B24BBD1B800E3B911 /* RecordOperation.swift in Sources */,
 				E4E0BD7424A30F7B00A72DEA /* Poll.swift in Sources */,
 				E42AC55624B2F53C00E204BD /* ColorExt.swift in Sources */,
 				E4E5514224B3C8C90052BAE0 /* PollWrapperView.swift in Sources */,
@@ -309,6 +319,7 @@
 				E4E0BD5A24A30A7F00A72DEA /* AppDelegate.swift in Sources */,
 				E4E0BD5C24A30A7F00A72DEA /* SceneDelegate.swift in Sources */,
 				E42AC55B24B2F5DB00E204BD /* MenuBarItemView.swift in Sources */,
+				E4B5DF1724BBCDDB00E3B911 /* DisplayPollsModel.swift in Sources */,
 				E4E0BD7224A30AF000A72DEA /* ViewModel.swift in Sources */,
 				E4E0BD7B24A313FD00A72DEA /* RecordType.swift in Sources */,
 				E4E0BD5E24A30A7F00A72DEA /* ContentView.swift in Sources */,
@@ -316,6 +327,7 @@
 				E42AC55D24B2F62100E204BD /* Constant.swift in Sources */,
 				E4E0BD7824A30F9100A72DEA /* User.swift in Sources */,
 				E42AC55424B2C2AE00E204BD /* CloudKitHelper.swift in Sources */,
+				E4B5DF1D24BBD46900E3B911 /* MenuModel.swift in Sources */,
 				E4E5513C24B2FCA70052BAE0 /* PollView.swift in Sources */,
 				E42AC55824B2F57600E204BD /* MenuBarView.swift in Sources */,
 				E4E5513E24B2FCD90052BAE0 /* CardSwipeEffect.swift in Sources */,

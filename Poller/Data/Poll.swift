@@ -47,7 +47,7 @@ class Poll: Hashable, ObservableObject {
         let creatorReference = CKRecord.Reference(recordID: creator.recordID, action: .deleteSelf)
         record.setValue(creatorReference, forKey: PollKeys.creator.rawValue)
 
-        ViewModel.batchSave(save: [record], delete: [])
+        RecordOperation.batchSave(save: [record], delete: [])
 //        ViewModel.save(record)
         return record
     }
@@ -90,7 +90,7 @@ extension Poll {
         self.record.setValue(childRefs, forKey: Poll.PollKeys.pollItems.rawValue)
         var saves = itemRecords
         saves.append(self.record)
-        ViewModel.batchSave(save: saves, delete: [])
+        RecordOperation.batchSave(save: saves, delete: [])
     }
     
     func getPollItems() -> [PollItem] {
@@ -104,7 +104,7 @@ extension Poll {
     }
     
     private func getPollItem(with recordID: CKRecord.ID, completionHandler: @escaping (CKRecord) -> Void) {
-        ViewModel.fetch(recordID) { (fetchedRecord) in
+        RecordOperation.fetch(recordID) { (fetchedRecord) in
             completionHandler(fetchedRecord)
         }
     }
