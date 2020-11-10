@@ -13,6 +13,7 @@ struct AddPollView: View {
     @ObservedObject var viewModel: AddViewModel = AddViewModel.shared
     
     @State private var textStyle = UIFont.TextStyle.body
+    @State private var pollItems = [PollItemWithIndex(),PollItemWithIndex(),PollItemWithIndex()]
     
     var body: some View {
         VStack {
@@ -23,16 +24,25 @@ struct AddPollView: View {
                     .multilineTextAlignment(.center)
                     .minimumScaleFactor(0.4)
                     .padding()
-                    
-                ForEach(0..<viewModel.pollItems.count) { integer in
-                    TextField("poll item", text: $viewModel.pollItems[integer])
-                        .padding(.horizontal, 20)
-                        .multilineTextAlignment(.center)
-                        .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
-                        .foregroundColor(.white)
-                        .overlay(RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)
-                                    .stroke(Color.white, lineWidth: 2)
-                                    .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height))
+                ScrollView {
+                    ForEach(viewModel.pollItems) { item in
+                        HStack {
+                            TextField("poll item", text: $viewModel.pollItems[viewModel.getIndexOf(item)].str)
+                                .padding(.horizontal, 20)
+                                .multilineTextAlignment(.center)
+                                .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
+                                .foregroundColor(.white)
+                                .overlay(RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)
+                                            .stroke(Color.white, lineWidth: 2)
+                                            .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height))
+                            if viewModel.pollItems.count > 1 {
+                                Button("-") {
+                                    viewModel.removeItem(at: viewModel.getIndexOf(item))
+                                }
+                            }
+                        }
+
+                    }.padding()
 
                 }
                 Button("+", action: viewModel.addNewItem)
