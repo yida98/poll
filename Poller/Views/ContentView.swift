@@ -13,16 +13,22 @@ struct ContentView: View {
     @ObservedObject var viewModel: ViewModel = ViewModel.shared
 
     var body: some View {
-        VStack{
-            Spacer()
-            ZStack {
-                ForEach(0..<3, id: \.self) {
-                    PollWrapperView(cardIndex: 0, poll: self.viewModel.displayPolls.polls[$0])
+        ZStack {
+            VStack{
+                Spacer()
+                if viewModel.displayPolls.count == 1 { (ZStack {
+                    ForEach(0..<3, id: \.self) {
+                        PollWrapperView(cardIndex: 0, poll: self.viewModel.displayPolls[$0])
+                    }
+                }) } else {
+                    Text("hi")
                 }
-            }
-            MenuBarView()
-        }.background(Color.navy)
-        .edgesIgnoringSafeArea(.all)
+                MenuBarView()
+            }.background(Color.navy)
+            .edgesIgnoringSafeArea(.all)
+            
+            AddPollView()
+        }
     }
 }
 

@@ -20,7 +20,7 @@ struct MenuBarItemView: View {
                     .background(RoundedGeoView(color: Color.white, tl: 0, tr: 0, bl: 4, br: 4))
                     .opacity(menuModel.cardDisplaying ? 1 : 0)
                 Spacer()
-                Image("PollStack")
+                Image("pollStack")
             }.frame(width: Constant.menuBarItemSize.width, height: Constant.menuBarItemSize.height)
                 .opacity(menuModel.cardDisplaying ? 1 : 0.3)
                 .onTapGesture {
@@ -35,7 +35,7 @@ struct MenuBarItemView: View {
                     .background(RoundedGeoView(color: Color.white, tl: 0, tr: 0, bl: 4, br: 4))
                     .opacity(menuModel.userDisplaying ? 1 : 0)
                 Spacer()
-                Image("YourPolls")
+                Image("yourPolls")
             }.frame(width: Constant.menuBarItemSize.width, height: Constant.menuBarItemSize.height)
                 .opacity(menuModel.userDisplaying ? 1 : 0.3)
                     .onTapGesture {

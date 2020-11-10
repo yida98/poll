@@ -7,6 +7,5 @@ target 'Poller' do
 
   # Pods for Poller
 #  pod "PromiseKit", "~> 6.8"
-  pod "PromiseKit/CloudKit", "~> 6.0"
 
 end

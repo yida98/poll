@@ -18,7 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
 
         RecordOperation.deleteAllRecords(of: RecordType.all)
-        ViewModel.shared
         
         return true
     }

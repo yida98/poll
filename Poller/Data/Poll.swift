@@ -8,7 +8,6 @@
 
 import Foundation
 import CloudKit
-import PromiseKit
 
 class Poll: Hashable, ObservableObject {
     
