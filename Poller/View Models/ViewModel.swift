@@ -14,58 +14,78 @@ class ViewModel: ObservableObject {
     
     static let shared = ViewModel()
     
-    var displayPolls = [Poll]()
+    @Published var displayPolls = [Poll]()
     
-    private init() {
-        print("private init time")
-
-    }
+//    var polls: AnyPublisher<Poll, Never> {
+//        RecordOperation.queryPoll(with: NSPredicate.ownPollPredicate) {}
+////            .map { }
+//            .eraseToAnyPublisher()
+//    }
     
-    func setPolls() {
-        if displayPolls.count < 3 {
-            RecordOperation.queryPoll(with: NSPredicate.wildPollPredicate) {
-                if self.displayPolls.count > 0 {
-                    self.setPolls()
-                } else {
-                    // There are no records of this type to query
-                    debugPrint("Nothing was queried")
-                }
+//    private var allPolls: AnyPublisher<[Poll], Never> {
+//        // something happens
+//        $displayPolls
+//            .filter({ $0.count < 3 })
+//
+//            .eraseToAnyPublisher()
+//    }
+    
+    private var asyncFetch: AnyPublisher<[Poll], Never> {
+        return Future<Poll, Never> { promise in
+            debugPrint("I'm inside a promise")
+            RecordOperation.queryPoll(with: NSPredicate.ownPollPredicate) { record in
+                promise(.success(Poll(record: record)))
             }
         }
+        .map { [$0] }
+        .eraseToAnyPublisher()
     }
+    
+    private var cancellableSet: Set<AnyCancellable> = []
+
+    private init() {
+        print("private init time")
+        refresh()
+    }
+    
+    func refresh() {
+        let originalCount = displayPolls.count
+        if displayPolls.count < 3 {
+            asyncFetch
+                .receive(on: RunLoop.main)
+                .prepend(displayPolls)
+                .assign(to: \.displayPolls, on: self)
+                .store(in: &cancellableSet)
+            if displayPolls.count < 3 && originalCount != displayPolls.count {
+                refresh()
+            }
+        }
+        
+    }
+    
+    func removeOne() {
+        if !displayPolls.isEmpty {
+            displayPolls.remove(at: 0)
+        }
+    }
+    
+//    func setPolls() {
+//        if displayPolls.count < 3 {
+//            RecordOperation.queryPoll(with: NSPredicate.ownPollPredicate) {
+//                if self.displayPolls.count > 0 {
+//                    self.setPolls()
+//                } else {
+//                    // There are no records of this type to query
+//                    debugPrint("Nothing was queried")
+//                }
+//            }
+//        }
+//    }
     // MARK: Model Methods
     
     func addPoll(_ poll: Poll) {
         displayPolls.append(poll)
     }
-        
-    // MARK: Static variables
-    
-    static var userCKID: CKRecord.ID = CKRecord.ID()
-    
-    var userCKName: String {
-        var user: String = ""
-        let group = DispatchGroup()
-        let container = CKContainer.default()
-        print("container of \(String(describing: container.containerIdentifier))")
-        group.enter()
-        
-        container.fetchUserRecordID { (Id, error) in
-            if error != nil {
-                fatalError("Fatal error: \(String(describing: error))")
-            }
-            
-            guard let id = Id else {
-                fatalError("No CKRecordID found")
-            }
-            user = id.recordName
-            group.leave()
-        }
-        
-        group.wait()
-        return user
-    }
-    
         
 }
 

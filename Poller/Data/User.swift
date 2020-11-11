@@ -19,7 +19,7 @@ class User: Hashable, ObservableObject {
     var record: CKRecord
     
     init(record: CKRecord) {
-        self.accountName = ViewModel.shared.userCKName
+        self.accountName = UserConstants.userCKName
         self.polls = record[User.UserKeys.polls.rawValue] as! [CKRecord.Reference]
         self.votedFor = record[User.UserKeys.votedFor.rawValue] as! Set<CKRecord.Reference>
         self.pollsSeen = record[User.UserKeys.pollsSeen.rawValue] as! Set<CKRecord.Reference>
@@ -27,12 +27,12 @@ class User: Hashable, ObservableObject {
         self.record = record
     }
     
-    static func create(with name: String = ViewModel.shared.userCKName) -> CKRecord {
+    static func create(with name: String = UserConstants.userCKName) -> CKRecord {
         let record = CKRecord(recordType: RecordType.user.rawValue)
         record.setValue(name, forKey: UserKeys.accountName.rawValue)
         
         RecordOperation.batchSave(save: [record], delete: [])
-        ViewModel.userCKID = record.recordID
+//        UserConstants.userCKID = record.recordID
         //ViewModel.save(record)
         
         return record

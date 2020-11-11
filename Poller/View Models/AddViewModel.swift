@@ -41,7 +41,18 @@ class AddViewModel: ObservableObject {
     }
     
     func submit() {
-        debugPrint("submit form")
+        let titleArray = pollItems.map {$0.itemName}
+        AddViewModel.onSumbit(title: title, items: titleArray)
+    }
+    
+    private static func onSumbit(title: String, items: [String]) {
+        RecordOperation.fetch(UserConstants.userCKID) { (userRecord) in
+            
+            let newPollRecord = Poll.create(title: title, creator: userRecord)
+            for item in items {
+                let pollItem = PollItem.create(title: item, parent: newPollRecord)
+            }
+        }
     }
     
     

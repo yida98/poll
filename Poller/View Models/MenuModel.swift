@@ -12,13 +12,21 @@ class MenuModel: ObservableObject {
     
     static let shared = MenuModel()
     var addViewModel = AddViewModel.shared
+    var viewModel = ViewModel.shared
             
     @Published var cardDisplaying: Bool = true
-    @Published var userDisplaying: Bool = false
+    @Published var userDisplaying: Bool = false {
+        didSet {
+//            RecordOperation.deleteAllRecords(of: .all)
+            viewModel.removeOne()
+        }
+    }
+
     
     @Published var currMiddleImg: String = AssetImages.addPoll.rawValue {
         didSet {
             addViewModel.toggleShow()
+            viewModel.refresh()
         }
     }
     

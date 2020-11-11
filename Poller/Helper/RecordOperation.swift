@@ -38,7 +38,20 @@ struct RecordOperation {
                 fatalError("\(error.localizedDescription)")
             } else {
                 // TODO: What happens after a record is fetched
-                debugPrint("CKRecord of ID \(record!.recordType.debugDescription) successfully fetched")
+                debugPrint("CKRecord of ID \(record!.recordType.debugDescription) successfully fetched from publicDB")
+                completionHandler(record!)
+            }
+        }
+    }
+    
+    static func fetchUserRecord(_ recordID: CKRecord.ID, completionHandler: @escaping (CKRecord) -> Void) {
+        RecordOperation.privateDB.fetch(withRecordID: recordID) { (record, error) in
+            if let error = error {
+                // TODO: Error handling
+                fatalError("\(error.localizedDescription)")
+            } else {
+                // TODO: What happens after a record is fetched
+                debugPrint("CKRecord of ID \(record!.recordType.debugDescription) successfully fetched from privateDB")
                 completionHandler(record!)
             }
         }
@@ -104,22 +117,17 @@ struct RecordOperation {
 //
 //    }
     
-    static func queryPoll(with predicate: NSPredicate, limit: Int = 1, completionBlock: @escaping ()->() = { }) {
+    static func queryPoll(with predicate: NSPredicate, limit: Int = 1, completionBlock: @escaping (_ record: CKRecord)->() = { _ in }) {
         let query = CKQuery(recordType: RecordType.poll.rawValue, predicate: predicate)
         let operation = CKQueryOperation(query: query)
-        
-        if predicate == NSPredicate.ownPollPredicate {
-            operation.resultsLimit = 3
-        } else {
-            operation.resultsLimit = limit // TODO: Might want to be 3
-        }
+        operation.resultsLimit = limit
         operation.recordFetchedBlock = { record in
-            ViewModel.shared.addPoll(Poll(record: record))
-            
+//            ViewModel.shared.addPoll(Poll(record: record))
+            completionBlock(record)
         }
-        operation.completionBlock = {
-            completionBlock()
-        }
+//        operation.completionBlock = {
+//            completionBlock()
+//        }
         RecordOperation.publicDB.add(operation)
     }
     
@@ -163,14 +171,14 @@ struct RecordOperation {
 extension NSPredicate {
     
     static var wildPollPredicate: NSPredicate {
-        let recordToMatch = CKRecord.Reference(recordID: ViewModel.userCKID, action: .none)
-        return NSPredicate(format: ("%K != %@ AND NOT (%K CONTAINS %@)"), Poll.PollKeys.creator.rawValue, ViewModel.shared.userCKName, Poll.PollKeys.seenBy.rawValue, recordToMatch) // seenBy?
+        let recordToMatch = CKRecord.Reference(recordID: UserConstants.userCKID, action: .none)
+        return NSPredicate(format: ("%K != %@ AND NOT (%K CONTAINS %@)"), Poll.PollKeys.creator.rawValue, UserConstants.userCKName, Poll.PollKeys.seenBy.rawValue, recordToMatch) // seenBy?
 
 //        return NSPredicate(format: ("%K != %@ AND %K NOT CONTAINS %@"), Poll.PollKeys.creator.rawValue, ViewModel.shared.userCKName, Poll.PollKeys.seenBy.rawValue, recordToMatch) // seenBy?
     }
     
     static var ownPollPredicate: NSPredicate {
-        let recordToMatch = CKRecord.Reference(recordID: ViewModel.userCKID, action: .none)
+        let recordToMatch = CKRecord.Reference(recordID: UserConstants.userCKID, action: .none)
         return NSPredicate(format: "%K == %@", Poll.PollKeys.creator.rawValue, recordToMatch)
     }
     

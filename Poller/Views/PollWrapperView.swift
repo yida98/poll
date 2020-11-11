@@ -19,6 +19,8 @@ struct PollWrapperView: View {
     var body: some View {
         VStack {
             Text("Hello world")
+            
+            PollView()
 //            VStack {
 //                ZStack(alignment: .bottom) {
 //                    Spacer()
@@ -77,10 +79,10 @@ struct PollWrapperView: View {
 //                Spacer()
 //            }.padding(.vertical, 40)
         }
-                .frame(width: Constant.pollSize.width, height: Constant.pollSize.height)
-                .background(RoundedGeoView(color: Color.white, tl: 60, tr: 60, bl: 60, br: 0))
-                .opacity(self.cardIndex == 0 ? 1 : 0.6)
-                .scaleEffect(self.cardIndex == 0 ? 1 : 0.9, anchor: .bottom)
-                    .modifier(CardSwipeEffect(offset: offset))
+            .frame(width: Constant.pollSize.width, height: Constant.pollSize.height)
+            .background(RoundedGeoView(color: Color.white, tl: 60, tr: 60, bl: 60, br: 0))
+            .opacity(self.cardIndex == 0 ? 1 : 0.6)
+            .scaleEffect(self.cardIndex == 0 ? 1 : 0.9, anchor: .bottom)
+                .modifier(CardSwipeEffect(offset: offset))
     }
 }
