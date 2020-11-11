@@ -30,17 +30,20 @@ struct AddPollView: View {
                                 Text(item.itemName)
                                     .padding(.horizontal, 20)
                                     .multilineTextAlignment(.center)
-                                    .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
+                                    .frame(width: Constant.pollItemSize.width - 20, height: Constant.pollItemSize.height)
                                     .foregroundColor(.white)
                                     .overlay(RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)
                                                 .stroke(Color.white, lineWidth: 2)
-                                                .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height))
+                                                .frame(width: Constant.pollItemSize.width
+                                                        - 20, height: Constant.pollItemSize.height))
                                 Button("-") {
                                     viewModel.removeItem(at: viewModel.getIndexOf(item))
                                 }
+                                .frame(width: 20)
+                                .foregroundColor(Color.red)
 
                             } else {
-                                TextField("...", text: $viewModel.pollItems[viewModel.getIndexOf(item)].itemName)
+                                TextField("item name", text: $viewModel.pollItems[viewModel.getIndexOf(item)].itemName)
                                     .padding(.horizontal, 20)
                                     .multilineTextAlignment(.center)
                                     .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
@@ -52,6 +55,7 @@ struct AddPollView: View {
                         }
                         .padding(.vertical, 5)
                         .padding(.horizontal, 5)
+                        .animation(nil)
                     }
                 }.animation(.easeIn)
                 HStack {
@@ -63,7 +67,8 @@ struct AddPollView: View {
                                     .frame(width: Constant.pollItemSize.width*0.4, height: Constant.pollItemSize.height))
                         .opacity(0.7)
                         .padding()
-                    Button("edit", action: viewModel.toggleEdit)
+                        .disabled(viewModel.editMode)
+                    Button(viewModel.editMode ? "done" : "edit", action: viewModel.toggleEdit)
                         .frame(width: Constant.pollItemSize.width*0.4, height: Constant.pollItemSize.height)
                         .foregroundColor(.white)
                         .overlay(RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)

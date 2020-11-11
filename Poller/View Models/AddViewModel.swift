@@ -25,7 +25,6 @@ class AddViewModel: ObservableObject {
     }
     
     func removeItem(at index: Int) {
-        debugPrint(pollItems[index])
         pollItems.remove(at: index)
     }
     
