@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Combine
 
 class AddViewModel: ObservableObject {
     
@@ -16,6 +17,8 @@ class AddViewModel: ObservableObject {
     @Published var pollItems: [PollItemWithIndex] = [PollItemWithIndex()]
     
     @Published var showing: Bool = false
+    @Published var editMode: Bool = false
+    @Published var deployable: Bool = false
     
     func addNewItem() {
         pollItems.append(PollItemWithIndex())
@@ -27,16 +30,56 @@ class AddViewModel: ObservableObject {
     }
     
     func toggleShow() {
-        debugPrint("toggling", !showing)
         showing.toggle()
+    }
+    
+    func toggleEdit() {
+        editMode.toggle()
     }
     
     func getIndexOf(_ item: PollItemWithIndex) -> Int {
         return pollItems.firstIndex( where: {$0.id == item.id} )!
     }
+    
+    func submit() {
+        debugPrint("submit form")
+    }
+    
+    
+    // MARK: Publishers
+    private var isTitleValidPublisher: AnyPublisher<Bool, Never> {
+        $title
+            .map {input in
+                input.count > 0
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    private var itemsValidPublisher: AnyPublisher<Bool, Never> {
+        $pollItems
+            .map {$0.allSatisfy {!$0.itemName.isEmpty} }
+            .eraseToAnyPublisher()
+    }
+    
+    private var isFormValid: AnyPublisher<Bool, Never> {
+        Publishers.CombineLatest(isTitleValidPublisher, itemsValidPublisher)
+            .map {a, b in
+                return a && b
+            }
+            .eraseToAnyPublisher()
+    }
+    
+    private var cancellableSet: Set<AnyCancellable> = []
+    
+    init() {
+        isFormValid
+            .receive(on: RunLoop.main)
+            .assign(to: \.deployable, on: self)
+            .store(in: &cancellableSet)
+    }
 }
 
 struct PollItemWithIndex: Identifiable {
     var id: UUID = UUID()
-    var str: String = ""
+    var itemName: String = ""
 }

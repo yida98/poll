@@ -13,7 +13,6 @@ struct AddPollView: View {
     @ObservedObject var viewModel: AddViewModel = AddViewModel.shared
     
     @State private var textStyle = UIFont.TextStyle.body
-    @State private var pollItems = [PollItemWithIndex(),PollItemWithIndex(),PollItemWithIndex()]
     
     var body: some View {
         VStack {
@@ -27,39 +26,61 @@ struct AddPollView: View {
                 ScrollView {
                     ForEach(viewModel.pollItems) { item in
                         HStack {
-                            TextField("poll item", text: $viewModel.pollItems[viewModel.getIndexOf(item)].str)
-                                .padding(.horizontal, 20)
-                                .multilineTextAlignment(.center)
-                                .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
-                                .foregroundColor(.white)
-                                .overlay(RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)
-                                            .stroke(Color.white, lineWidth: 2)
-                                            .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height))
-                            if viewModel.pollItems.count > 1 {
+                            if viewModel.editMode {
+                                Text(item.itemName)
+                                    .padding(.horizontal, 20)
+                                    .multilineTextAlignment(.center)
+                                    .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
+                                    .foregroundColor(.white)
+                                    .overlay(RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)
+                                                .stroke(Color.white, lineWidth: 2)
+                                                .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height))
                                 Button("-") {
                                     viewModel.removeItem(at: viewModel.getIndexOf(item))
                                 }
+
+                            } else {
+                                TextField("...", text: $viewModel.pollItems[viewModel.getIndexOf(item)].itemName)
+                                    .padding(.horizontal, 20)
+                                    .multilineTextAlignment(.center)
+                                    .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
+                                    .foregroundColor(.white)
+                                    .overlay(RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)
+                                                .stroke(Color.white, lineWidth: 2)
+                                                .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height))
                             }
                         }
-
-                    }.padding()
+                        .padding(.vertical, 5)
+                        .padding(.horizontal, 5)
+                    }
+                }.animation(.easeIn)
+                HStack {
+                    Button("add", action: viewModel.addNewItem)
+                        .frame(width: Constant.pollItemSize.width*0.4, height: Constant.pollItemSize.height)
+                        .foregroundColor(.white)
+                        .overlay(RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)
+                                    .stroke(Color.white, lineWidth: 2)
+                                    .frame(width: Constant.pollItemSize.width*0.4, height: Constant.pollItemSize.height))
+                        .opacity(0.7)
+                        .padding()
+                    Button("edit", action: viewModel.toggleEdit)
+                        .frame(width: Constant.pollItemSize.width*0.4, height: Constant.pollItemSize.height)
+                        .foregroundColor(.white)
+                        .overlay(RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)
+                                    .stroke(Color.white, lineWidth: 2)
+                                    .frame(width: Constant.pollItemSize.width*0.4, height: Constant.pollItemSize.height))
+                        .opacity(0.7)
+                        .padding()
 
                 }
-                Button("+", action: viewModel.addNewItem)
-                    .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
-                    .foregroundColor(.white)
-                    .overlay(RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)
-                                .stroke(Color.white, lineWidth: 2)
-                                .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height))
-                    .opacity(0.7)
                 
                 Spacer()
-                Button("Done", action: viewModel.addNewItem)
+                Button("Done", action: viewModel.submit)
                     .font(.custom("Avenir-Heavy", size: 20))
                     .foregroundColor(.white)
-                    .opacity(0.5)
+                    .opacity(viewModel.deployable ? 1 : 0.5)
                     .padding()
-                    .disabled(viewModel.title == "" && viewModel.pollItems.count == 0)
+                    .disabled(!viewModel.deployable)
                 
             }
             .frame(width: Constant.pollSize.width, height: Constant.pollSize.height * 1.1)
