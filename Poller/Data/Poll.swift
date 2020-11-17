@@ -22,6 +22,7 @@ class Poll: Hashable, ObservableObject {
     init(record: CKRecord) {
         self.title = record[PollKeys.title.rawValue] as! String
         if let _ = record[PollKeys.pollItems.rawValue] as? [CKRecord.Reference] {
+            print("ore wa doko?")
             self.pollItemRefs = record[PollKeys.pollItems.rawValue] as! [CKRecord.Reference]
         } else {
             print("watashi wa here")
@@ -45,12 +46,19 @@ class Poll: Hashable, ObservableObject {
         self.record = record
     }
     
-    static func create(title: String, creator: CKRecord) -> CKRecord { // TODO: Pass in CKRecord.ID for creator pls
+    static func create(title: String, creator: CKRecord, pollRecords: [CKRecord]) -> CKRecord { // TODO: Pass in CKRecord.ID for creator pls
         let record = CKRecord(recordType: RecordType.poll.rawValue)
         record.setValue(title, forKey: PollKeys.title.rawValue)
         
         let creatorReference = CKRecord.Reference(recordID: creator.recordID, action: .deleteSelf)
         record.setValue(creatorReference, forKey: PollKeys.creator.rawValue)
+        
+        var pollItemRefs = [CKRecord.Reference]()
+        for item in pollRecords {
+            let itemRef = CKRecord.Reference(record: item, action: .deleteSelf)
+            pollItemRefs.append(itemRef)
+        }
+        record.setValue(pollItemRefs, forKey: PollKeys.pollItems.rawValue)
 
         RecordOperation.batchSave(save: [record], delete: [])
 //        ViewModel.save(record)

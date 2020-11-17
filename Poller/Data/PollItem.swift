@@ -29,13 +29,13 @@ class PollItem: Hashable, ObservableObject {
         self.record = record
     }
     
-    static func create(title: String, parent: CKRecord) -> CKRecord {
+    static func create(title: String) -> CKRecord {
         let record = CKRecord(recordType: RecordType.pollItem.rawValue)
         record.setValue(title, forKey: PollItemKeys.title.rawValue)
         
 //        record.setParent(parent.recordID)
-        let parentRef = CKRecord.Reference(recordID: parent.recordID, action: .deleteSelf)
-        record.setValue(parentRef, forKey: PollItemKeys.poll.rawValue)
+//        let parentRef = CKRecord.Reference(recordID: parent.recordID, action: .deleteSelf)
+//        record.setValue(parentRef, forKey: PollItemKeys.poll.rawValue)
 //        record.setValue(self.votedBy, forKey: PollItemKeys.votedBy.rawValue)
         
         RecordOperation.batchSave(save: [record], delete: [])

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CloudKit
 import Combine
 
 class AddViewModel: ObservableObject {
@@ -47,12 +48,13 @@ class AddViewModel: ObservableObject {
     
     private static func onSumbit(title: String, items: [String]) {
         RecordOperation.fetch(UserConstants.userCKID) { (userRecord) in
-            
-            let newPollRecord = Poll.create(title: title, creator: userRecord)
+            var pollItems = [CKRecord]()
             for item in items {
-                let pollItem = PollItem.create(title: item, parent: newPollRecord)
+                let pollItem = PollItem.create(title: item)
+                pollItems.append(pollItem)
             }
-            
+            let newPollRecord = Poll.create(title: title, creator: userRecord, pollRecords: pollItems)
+
         }
     }
     

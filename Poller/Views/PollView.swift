@@ -18,7 +18,7 @@ struct PollView: View {
                 Text(viewModel.displayPolls[index].title) // Title
                     .foregroundColor(.blue)
                 VStack {
-                    ForEach(viewModel.displayPolls[index].pollItems.indices, id: \.self) { itemIndex in
+                    ForEach(viewModel.displayPolls[index].pollItemRefs.indices, id: \.self) { itemIndex in
                         Text(String(viewModel.displayPolls[index].pollItemRefs.count))
                             .foregroundColor(.blue)
                             .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
