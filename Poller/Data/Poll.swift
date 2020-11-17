@@ -12,25 +12,31 @@ import CloudKit
 class Poll: Hashable, ObservableObject {
     
     var title: String
-    var pollItems: [CKRecord.Reference]
+    var pollItemRefs: [CKRecord.Reference]
+    var pollItems = [PollItem]()
     var totalVotes: Int = 0
     var seenBy: Set<CKRecord.Reference>
     var creator: CKRecord.Reference
-    
     var record: CKRecord
     
     init(record: CKRecord) {
         self.title = record[PollKeys.title.rawValue] as! String
         if let _ = record[PollKeys.pollItems.rawValue] as? [CKRecord.Reference] {
-            self.pollItems = record[PollKeys.pollItems.rawValue] as! [CKRecord.Reference]
+            self.pollItemRefs = record[PollKeys.pollItems.rawValue] as! [CKRecord.Reference]
         } else {
-            self.pollItems = [CKRecord.Reference]()
+            print("watashi wa here")
+            self.pollItemRefs = [CKRecord.Reference]()
         }
         if let seenBy = record[PollKeys.seenBy.rawValue] as? Set<CKRecord.Reference> {
             self.seenBy = seenBy
         } else {
             self.seenBy = Set<CKRecord.Reference>()
         }
+        // Query all pollItems
+//        RecordOperation.queryPollItems(for: record) { items in
+//            self.pollItems = items
+//        }
+        
         guard let parent = record[PollKeys.creator.rawValue] as? CKRecord.Reference else {
             fatalError("This Poll doesn't belong to any User!")
         }
@@ -63,14 +69,14 @@ class Poll: Hashable, ObservableObject {
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(title)
-        hasher.combine(pollItems)
+        hasher.combine(pollItemRefs)
         hasher.combine(seenBy)
         hasher.combine(totalVotes)
     }
     
     static func == (lhs: Poll, rhs: Poll) -> Bool {
         return lhs.title == rhs.title
-            && lhs.pollItems == rhs.pollItems
+            && lhs.pollItemRefs == rhs.pollItemRefs
             && lhs.seenBy == rhs.seenBy
             && lhs.totalVotes == rhs.totalVotes
     }
@@ -94,7 +100,7 @@ extension Poll {
     
     func getPollItems() -> [PollItem] {
         var results = [PollItem]()
-        for reference in self.pollItems {
+        for reference in self.pollItemRefs {
             getPollItem(with: reference.recordID) { (fetchedRecord) in
                 results.append(PollItem(record: fetchedRecord))
             }

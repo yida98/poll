@@ -12,7 +12,7 @@ import CloudKit
 class PollItem: Hashable, ObservableObject {
     
     var title: String
-    var insertionIndex: Int?
+//    var insertionIndex: Int?
     var poll: CKRecord.Reference
     var votedBy: Set<CKRecord.Reference>
     
@@ -60,7 +60,7 @@ class PollItem: Hashable, ObservableObject {
     
     static func == (lhs: PollItem, rhs: PollItem) -> Bool {
         return lhs.title == rhs.title
-            && lhs.insertionIndex == rhs.insertionIndex
+//            && lhs.insertionIndex == rhs.insertionIndex
             && lhs.poll == rhs.poll
             && lhs.votedBy == rhs.votedBy
     }

@@ -6,21 +6,21 @@
 //  Copyright © 2020 Yida Zhang. All rights reserved.
 //
 
+import CloudKit
 import SwiftUI
 
 struct PollWrapperView: View {
-    @ObservedObject var viewModel: ViewModel = ViewModel.shared
+//    @ObservedObject var viewModel: ViewModel = ViewModel.shared
 
     @State var cardIndex: Int
     @State var offset: CGFloat = 0 // TODO: reset to 0 when view comes back
     
-    @ObservedObject var poll: Poll
+//    @ObservedObject var poll: Poll
 
     var body: some View {
         VStack {
-            Text("Hello world")
-            
             PollView()
+            
 //            VStack {
 //                ZStack(alignment: .bottom) {
 //                    Spacer()
@@ -83,6 +83,12 @@ struct PollWrapperView: View {
             .background(RoundedGeoView(color: Color.white, tl: 60, tr: 60, bl: 60, br: 0))
             .opacity(self.cardIndex == 0 ? 1 : 0.6)
             .scaleEffect(self.cardIndex == 0 ? 1 : 0.9, anchor: .bottom)
-                .modifier(CardSwipeEffect(offset: offset))
+            .modifier(CardSwipeEffect(offset: offset))
+    }
+}
+
+struct PollWrapperView_Previews: PreviewProvider {
+    static var previews: some View {
+        PollWrapperView(cardIndex: 0)
     }
 }

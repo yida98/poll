@@ -10,20 +10,25 @@ import SwiftUI
 
 struct PollView: View {
     
-//    @ObservedObject var poll: Poll = ViewModel.mockPolls.first!
-    
+    @ObservedObject var viewModel: ViewModel = ViewModel.shared
+    @State var index: Int = 0
     var body: some View {
         VStack {
-            Text("Poooooop")
-//            Text(poll.title) // Title
-//            VStack {
-//                ForEach(poll.pollItems, id: \.self.insertionIndex) {pollItem in
-//                    Text(pollItem.itemTitle)
-//                        .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
-//                        .cornerRadius(Constant.pollItemSize.height/2)
-//                        .shadow(radius: 4)
-//                }
-//            }
+            if viewModel.displayPolls.count > 0 {
+                Text(viewModel.displayPolls[index].title) // Title
+                    .foregroundColor(.blue)
+                VStack {
+                    ForEach(viewModel.displayPolls[index].pollItems.indices, id: \.self) { itemIndex in
+                        Text(String(viewModel.displayPolls[index].pollItemRefs.count))
+                            .foregroundColor(.blue)
+                            .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
+                            .cornerRadius(Constant.pollItemSize.height/2)
+                            .shadow(radius: 4)
+                    }
+                }
+            } else {
+                Text("pop")
+            }
         }
     }
     

@@ -131,11 +131,21 @@ struct RecordOperation {
         RecordOperation.publicDB.add(operation)
     }
     
-    static func queryPollItems(for poll: CKRecord) {
+    static func queryPollItems(for poll: CKRecord, completionBlock: @escaping ([PollItem])->() = { _ in}) {
         let recordToMatch = CKRecord.Reference(recordID: poll.recordID, action: .none)
         let predicate = NSPredicate(format: "%K == %@", PollItem.PollItemKeys.poll.rawValue, recordToMatch)
         
         RecordOperation.queryPoll(with: predicate, limit: Int(Double.infinity))
+        
+        let query = CKQuery(recordType: RecordType.pollItem.rawValue, predicate: predicate)
+        let operation = CKQueryOperation(query: query)
+        var results = [PollItem]()
+        operation.recordFetchedBlock = { record in
+            results.append(PollItem(record: record))
+        }
+        operation.completionBlock = {
+            completionBlock(results)
+        }
     }
     
 //    static func queryDisplayPolls() -> DisplayPollsModel {

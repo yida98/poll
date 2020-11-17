@@ -52,6 +52,7 @@ class AddViewModel: ObservableObject {
             for item in items {
                 let pollItem = PollItem.create(title: item, parent: newPollRecord)
             }
+            
         }
     }
     
