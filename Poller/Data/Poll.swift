@@ -22,10 +22,8 @@ class Poll: Hashable, ObservableObject {
     init(record: CKRecord) {
         self.title = record[PollKeys.title.rawValue] as! String
         if let _ = record[PollKeys.pollItems.rawValue] as? [CKRecord.Reference] {
-            print("ore wa doko?")
             self.pollItemRefs = record[PollKeys.pollItems.rawValue] as! [CKRecord.Reference]
         } else {
-            print("watashi wa here")
             self.pollItemRefs = [CKRecord.Reference]()
         }
         if let seenBy = record[PollKeys.seenBy.rawValue] as? Set<CKRecord.Reference> {
@@ -109,17 +107,15 @@ extension Poll {
     func getPollItems() -> [PollItem] {
         var results = [PollItem]()
         for reference in self.pollItemRefs {
-            getPollItem(with: reference.recordID) { (fetchedRecord) in
-                results.append(PollItem(record: fetchedRecord))
+            let group = DispatchGroup()
+            group.enter()
+            RecordOperation.fetch(reference.recordID) { (record) in
+                results.append(PollItem(record: record))
+                group.leave()
             }
+            group.wait()
         }
         return results
-    }
-    
-    private func getPollItem(with recordID: CKRecord.ID, completionHandler: @escaping (CKRecord) -> Void) {
-        RecordOperation.fetch(recordID) { (fetchedRecord) in
-            completionHandler(fetchedRecord)
-        }
     }
     
 }

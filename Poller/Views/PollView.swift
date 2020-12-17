@@ -20,10 +20,15 @@ struct PollView: View {
                 VStack {
                     ForEach(viewModel.displayPolls[index].pollItemRefs.indices, id: \.self) { itemIndex in
                         Text(String(viewModel.displayPolls[index].pollItemRefs.count))
-                            .foregroundColor(.blue)
+                            .padding(.horizontal, 20)
+                            .multilineTextAlignment(.center)
                             .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
-                            .cornerRadius(Constant.pollItemSize.height/2)
-                            .shadow(radius: 4)
+                            .foregroundColor(Color.gray)
+                            shadow(radius: 4)
+                            .overlay(RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)
+                                        .stroke()
+                                        .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
+                            )
                     }
                 }
             } else {

@@ -57,10 +57,10 @@ class ViewModel: ObservableObject {
                 .assign(to: \.displayPolls, on: self)
                 .store(in: &cancellableSet)
             if displayPolls.count < 3 && originalCount != displayPolls.count {
+                
                 refresh()
             }
         }
-        
     }
     
     func removeOne() {

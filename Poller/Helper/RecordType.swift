@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum RecordType: String {
+enum RecordType: String, CaseIterable {
     
     case poll = "Poll"
     case pollItem = "PollItem"

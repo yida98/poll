@@ -75,30 +75,31 @@ struct RecordOperation {
         
         database.add(operation)
     }
-        
-    static func deleteAllRecords(of type: RecordType) {
-        switch type {
-        case .all:
-            RecordOperation.deleteAllRecords(of: RecordType.user)
-            RecordOperation.deleteAllRecords(of: RecordType.poll)
-            RecordOperation.deleteAllRecords(of: RecordType.pollItem)
-            RecordOperation.deleteAllRecords(of: RecordType.displayPolls)
-        default:
-            let predicate = NSPredicate(value: true)
-            let query = CKQuery(recordType: type.rawValue, predicate: predicate)
-            let operation = CKQueryOperation(query: query)
-            
-            var results = [CKRecord.ID]()
-            operation.recordFetchedBlock = { record in
-                results.append(record.recordID)
-            }
-            operation.completionBlock = {
-                debugPrint("delete time")
-                RecordOperation.batchSave(save: [], delete: results)
-            }
-            
-            RecordOperation.publicDB.add(operation)
+    // deleteAllRecord(of: RecordType.allCases)
+    static func deleteAllRecords(of types: [RecordType]) {
+        for type in types {
+            deleteRecord(or: type)
         }
+        
+        
+    }
+    
+    private static func deleteRecord(or type: RecordType) {
+        let predicate = NSPredicate(value: true)
+        let query = CKQuery(recordType: type.rawValue, predicate: predicate)
+        let operation = CKQueryOperation(query: query)
+        
+        var results = [CKRecord.ID]()
+        operation.recordFetchedBlock = { record in
+            results.append(record.recordID)
+        }
+        operation.completionBlock = {
+            debugPrint("delete time")
+            RecordOperation.batchSave(save: [], delete: results)
+        }
+        
+        RecordOperation.publicDB.add(operation)
+
     }
 
     // MARK: Query

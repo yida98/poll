@@ -18,7 +18,7 @@ class MenuModel: ObservableObject {
     @Published var userDisplaying: Bool = false {
         didSet {
 //            RecordOperation.deleteAllRecords(of: .all)
-            viewModel.removeOne()
+//            viewModel.removeOne()
         }
     }
 
