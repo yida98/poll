@@ -78,13 +78,13 @@ struct RecordOperation {
     // deleteAllRecord(of: RecordType.allCases)
     static func deleteAllRecords(of types: [RecordType]) {
         for type in types {
-            deleteRecord(or: type)
+            deleteRecord(of: type)
         }
         
         
     }
     
-    private static func deleteRecord(or type: RecordType) {
+    private static func deleteRecord(of type: RecordType) {
         let predicate = NSPredicate(value: true)
         let query = CKQuery(recordType: type.rawValue, predicate: predicate)
         let operation = CKQueryOperation(query: query)

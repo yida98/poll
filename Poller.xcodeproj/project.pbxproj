@@ -39,6 +39,7 @@
 		E4E5513E24B2FCD90052BAE0 /* CardSwipeEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E5513D24B2FCD90052BAE0 /* CardSwipeEffect.swift */; };
 		E4E5514024B2FE740052BAE0 /* RoundedTitleGeoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E5513F24B2FE740052BAE0 /* RoundedTitleGeoView.swift */; };
 		E4E5514224B3C8C90052BAE0 /* PollWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E5514124B3C8C90052BAE0 /* PollWrapperView.swift */; };
+		E4F95F89258C1279008C048C /* SplashModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F95F88258C1279008C048C /* SplashModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,6 +80,7 @@
 		E4E5513D24B2FCD90052BAE0 /* CardSwipeEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardSwipeEffect.swift; sourceTree = "<group>"; };
 		E4E5513F24B2FE740052BAE0 /* RoundedTitleGeoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTitleGeoView.swift; sourceTree = "<group>"; };
 		E4E5514124B3C8C90052BAE0 /* PollWrapperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollWrapperView.swift; sourceTree = "<group>"; };
+		E4F95F88258C1279008C048C /* SplashModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				E4E0BD7124A30AF000A72DEA /* ViewModel.swift */,
+				E4F95F88258C1279008C048C /* SplashModel.swift */,
 				E4B5DF1624BBCDDB00E3B911 /* DisplayPollsModel.swift */,
 				E4AB9B97255A7F8200EFC381 /* AddViewModel.swift */,
 				E4AB9B9A255B85D200EFC381 /* UserConstants.swift */,
@@ -347,6 +350,7 @@
 				E4B5DF1D24BBD46900E3B911 /* MenuModel.swift in Sources */,
 				E4E5513C24B2FCA70052BAE0 /* PollView.swift in Sources */,
 				E42AC55824B2F57600E204BD /* MenuBarView.swift in Sources */,
+				E4F95F89258C1279008C048C /* SplashModel.swift in Sources */,
 				E4E5513E24B2FCD90052BAE0 /* CardSwipeEffect.swift in Sources */,
 				E4AB9B91255A683E00EFC381 /* AddPollView.swift in Sources */,
 			);
