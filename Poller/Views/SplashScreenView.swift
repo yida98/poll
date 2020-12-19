@@ -9,8 +9,21 @@
 import SwiftUI
 
 struct SplashScreenView: View {
+    
+    @ObservedObject var model = SplashModel.shared
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Spacer()
+            HStack{
+                Spacer()
+                Text("Yello world")
+                Spacer()
+            }
+            Spacer()
+        }.edgesIgnoringSafeArea(.all)
+        .background(Color.blue)
+        .transition(AnyTransition.opacity.animation(.easeInOut(duration: 2)))
     }
 }
 

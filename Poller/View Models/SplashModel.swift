@@ -13,5 +13,7 @@ import Combine
 class SplashModel: ObservableObject {
     
     static let shared = SplashModel()
+    
+    @Published var showSplash = true
 
 }

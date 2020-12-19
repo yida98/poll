@@ -15,6 +15,7 @@ class ViewModel: ObservableObject {
     static let shared = ViewModel()
     
     @Published var displayPolls = [Poll]()
+    @Published var showSplash = true
     
 //    var polls: AnyPublisher<Poll, Never> {
 //        RecordOperation.queryPoll(with: NSPredicate.ownPollPredicate) {}
@@ -45,10 +46,50 @@ class ViewModel: ObservableObject {
 
     private init() {
         print("private init time")
-        refresh()
+        NotificationCenter.default.addObserver(self, selector: #selector(deleteRecordCompletion), name: .deleteRecordCompletion, object: nil)
+        deleteRecords(of: RecordType.allCases)
+//        refresh()
+    }
+    
+    @objc
+    func deleteRecordCompletion() {
+        // Increment
+        debugPrint("Incrementing")
+        DispatchQueue.main.async {
+            self.completionCount += 1
+            debugPrint("Completion count: \(self.completionCount) match count: \(self.match)")
+            // Check size
+            if self.match > 0 {
+                debugPrint("matching")
+                if self.completionCount >= self.match {
+                    debugPrint("refresh soon")
+                    // If size match: refresh()
+                    self.refresh()
+                    
+                    // Reset match and completionCount
+
+                    self.completionCount = 0
+                    self.match = 0
+                }
+            }
+
+        }
+        
+        
+        
+    }
+    
+    @Published var completionCount: Int = 0
+    
+    private var match: Int = 0
+    
+    func deleteRecords(of types: [RecordType]) {
+        match = types.count
+        RecordOperation.deleteAllRecords(of: types)
     }
     
     func refresh() {
+        print("refreshing...")
         let originalCount = displayPolls.count
         if displayPolls.count < 3 {
             asyncFetch
@@ -61,6 +102,10 @@ class ViewModel: ObservableObject {
                 refresh()
             }
         }
+    }
+    
+    func toggleShow() {
+        self.showSplash.toggle()
     }
     
     func removeOne() {
@@ -88,5 +133,3 @@ class ViewModel: ObservableObject {
     }
         
 }
-
-

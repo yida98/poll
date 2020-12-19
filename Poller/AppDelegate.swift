@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
 
-        RecordOperation.deleteAllRecords(of: RecordType.allCases) // TODO: Need to know when its over
+//        RecordOperation.deleteAllRecords(of: RecordType.allCases) // TODO: Need to know when its over
         
         return true
     }

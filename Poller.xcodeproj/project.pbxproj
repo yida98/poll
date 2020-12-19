@@ -40,6 +40,7 @@
 		E4E5514024B2FE740052BAE0 /* RoundedTitleGeoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E5513F24B2FE740052BAE0 /* RoundedTitleGeoView.swift */; };
 		E4E5514224B3C8C90052BAE0 /* PollWrapperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E5514124B3C8C90052BAE0 /* PollWrapperView.swift */; };
 		E4F95F89258C1279008C048C /* SplashModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F95F88258C1279008C048C /* SplashModel.swift */; };
+		E4F95F8C258DB2C3008C048C /* NotificationCenter+ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4F95F8B258DB2C3008C048C /* NotificationCenter+ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +82,7 @@
 		E4E5513F24B2FE740052BAE0 /* RoundedTitleGeoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedTitleGeoView.swift; sourceTree = "<group>"; };
 		E4E5514124B3C8C90052BAE0 /* PollWrapperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollWrapperView.swift; sourceTree = "<group>"; };
 		E4F95F88258C1279008C048C /* SplashModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashModel.swift; sourceTree = "<group>"; };
+		E4F95F8B258DB2C3008C048C /* NotificationCenter+ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationCenter+ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +129,7 @@
 				E42AC55524B2F53C00E204BD /* ColorExt.swift */,
 				E42AC55C24B2F62100E204BD /* Constant.swift */,
 				E42AC55324B2C2AE00E204BD /* CloudKitHelper.swift */,
+				E4F95F8B258DB2C3008C048C /* NotificationCenter+ext.swift */,
 				E4E0BD7A24A313FD00A72DEA /* RecordType.swift */,
 				E4B5DF1A24BBD1B800E3B911 /* RecordOperation.swift */,
 			);
@@ -333,6 +336,7 @@
 				E42AC55624B2F53C00E204BD /* ColorExt.swift in Sources */,
 				E4E5514224B3C8C90052BAE0 /* PollWrapperView.swift in Sources */,
 				E4E5514024B2FE740052BAE0 /* RoundedTitleGeoView.swift in Sources */,
+				E4F95F8C258DB2C3008C048C /* NotificationCenter+ext.swift in Sources */,
 				E4E0BD5A24A30A7F00A72DEA /* AppDelegate.swift in Sources */,
 				E4E0BD5C24A30A7F00A72DEA /* SceneDelegate.swift in Sources */,
 				E42AC55B24B2F5DB00E204BD /* MenuBarItemView.swift in Sources */,

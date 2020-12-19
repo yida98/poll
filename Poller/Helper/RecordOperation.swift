@@ -57,7 +57,7 @@ struct RecordOperation {
         }
     }
     
-    static func batchSave(save records: [CKRecord], delete delRecords: [CKRecord.ID], database: CKDatabase = RecordOperation.publicDB) {
+    static func batchSave(save records: [CKRecord], delete delRecords: [CKRecord.ID], database: CKDatabase = RecordOperation.publicDB, notificationName: Notification.Name = Notification.Name.generic) {
         let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: delRecords)
         operation.savePolicy = CKModifyRecordsOperation.RecordSavePolicy.changedKeys
         operation.isAtomic = false
@@ -73,6 +73,10 @@ struct RecordOperation {
             debugPrint("Records saved: \(String(describing: savedRecords)) \n Records deleted: \(String(describing: deletedIDs))")
         }
         
+        operation.completionBlock = {
+            NotificationCenter.default.post(name: notificationName, object: nil)
+        }
+        
         database.add(operation)
     }
     // deleteAllRecord(of: RecordType.allCases)
@@ -80,8 +84,7 @@ struct RecordOperation {
         for type in types {
             deleteRecord(of: type)
         }
-        
-        
+                
     }
     
     private static func deleteRecord(of type: RecordType) {
@@ -94,8 +97,7 @@ struct RecordOperation {
             results.append(record.recordID)
         }
         operation.completionBlock = {
-            debugPrint("delete time")
-            RecordOperation.batchSave(save: [], delete: results)
+            RecordOperation.batchSave(save: [], delete: results, notificationName: Notification.Name.deleteRecordCompletion)
         }
         
         RecordOperation.publicDB.add(operation)
