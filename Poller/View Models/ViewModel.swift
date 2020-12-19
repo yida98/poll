@@ -22,6 +22,7 @@ class ViewModel: ObservableObject {
             // TODO: NOT OWN POLL IN THE FUTURE
             RecordOperation.queryPoll(with: NSPredicate.ownPollPredicate) { record in
                 // TODO: NOT BLOCKING?!
+                debugPrint("promise")
                 promise(.success(Poll(record: record)))
             }
         }
@@ -76,10 +77,12 @@ class ViewModel: ObservableObject {
         if displayPolls.count < 3 {
             asyncFetch
                 .receive(on: RunLoop.main)
-                .prepend(displayPolls)
-                .handleEvents(receiveOutput: { (publisher) in
-                    // Each fetch
-                    debugPrint("receive output")
+                .handleEvents(receiveOutput: { (polls) in
+                    debugPrint("received output \(polls)")
+                }, receiveCompletion: { (subsComp) in
+                    debugPrint("subs completion \(subsComp)")
+                }, receiveRequest: { (demand) in
+                    debugPrint("Demanda \(demand)")
                 })
                 .assign(to: \.displayPolls, on: self)
                 .store(in: &cancellableSet)
