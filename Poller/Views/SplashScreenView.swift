@@ -10,7 +10,7 @@ import SwiftUI
 
 struct SplashScreenView: View {
     
-    @ObservedObject var model = SplashModel.shared
+    @ObservedObject var model = ViewModel.shared
     
     var body: some View {
         VStack {
@@ -23,7 +23,6 @@ struct SplashScreenView: View {
             Spacer()
         }.edgesIgnoringSafeArea(.all)
         .background(Color.blue)
-        .transition(AnyTransition.opacity.animation(.easeInOut(duration: 2)))
     }
 }
 

@@ -17,20 +17,6 @@ class ViewModel: ObservableObject {
     @Published var displayPolls = [Poll]()
     @Published var showSplash = true
     
-//    var polls: AnyPublisher<Poll, Never> {
-//        RecordOperation.queryPoll(with: NSPredicate.ownPollPredicate) {}
-////            .map { }
-//            .eraseToAnyPublisher()
-//    }
-    
-//    private var allPolls: AnyPublisher<[Poll], Never> {
-//        // something happens
-//        $displayPolls
-//            .filter({ $0.count < 3 })
-//
-//            .eraseToAnyPublisher()
-//    }
-    
     private var asyncFetch: AnyPublisher<[Poll], Never> {
         return Future<Poll, Never> { promise in
             debugPrint("I'm inside a promise")
@@ -53,30 +39,19 @@ class ViewModel: ObservableObject {
     
     @objc
     func deleteRecordCompletion() {
-        // Increment
-        debugPrint("Incrementing")
         DispatchQueue.main.async {
             self.completionCount += 1
-            debugPrint("Completion count: \(self.completionCount) match count: \(self.match)")
             // Check size
             if self.match > 0 {
-                debugPrint("matching")
                 if self.completionCount >= self.match {
-                    debugPrint("refresh soon")
                     // If size match: refresh()
                     self.refresh()
-                    
                     // Reset match and completionCount
-
                     self.completionCount = 0
                     self.match = 0
                 }
             }
-
         }
-        
-        
-        
     }
     
     @Published var completionCount: Int = 0
@@ -89,23 +64,31 @@ class ViewModel: ObservableObject {
     }
     
     func refresh() {
-        print("refreshing...")
+        debugPrint("refreshing...")
         let originalCount = displayPolls.count
         if displayPolls.count < 3 {
             asyncFetch
                 .receive(on: RunLoop.main)
                 .prepend(displayPolls)
+                .handleEvents(receiveOutput: { (publisher) in
+                    // Each fetch
+                    debugPrint("receive output")
+                })
                 .assign(to: \.displayPolls, on: self)
                 .store(in: &cancellableSet)
             if displayPolls.count < 3 && originalCount != displayPolls.count {
                 
                 refresh()
+            } else {
+                // TODO: Done all refresh
+                debugPrint("Done!")
+                toggleShow()
             }
         }
     }
     
     func toggleShow() {
-        self.showSplash.toggle()
+        self.showSplash = false
     }
     
     func removeOne() {

@@ -11,8 +11,7 @@ import SwiftUI
 struct ContentView: View {
     
     @ObservedObject var viewModel: ViewModel = ViewModel.shared
-    @ObservedObject var splashModel: SplashModel = SplashModel.shared
-
+    
     var body: some View {
         ZStack {
             VStack{
@@ -28,17 +27,10 @@ struct ContentView: View {
                 MenuBarView()
             }.background(Color.navy)
             .edgesIgnoringSafeArea(.all)
-            
-            if viewModel.showSplash {
-//                SplashScreenView()
-                Text("I'M OKAY")
-                    .onTapGesture {
-                        withAnimation(.easeOut(duration: 2)){
-                            
-                            viewModel.toggleShow()
-                        }
-                    }
-            }
+
+            SplashScreenView()
+                .opacity(viewModel.showSplash ? 1 : 0)
+                .animation(.easeOut(duration: 0.3))
             
             AddPollView()
 
