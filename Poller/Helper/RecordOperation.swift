@@ -126,11 +126,13 @@ struct RecordOperation {
         operation.resultsLimit = limit
         operation.recordFetchedBlock = { record in
 //            ViewModel.shared.addPoll(Poll(record: record))
+            debugPrint("Fetched \(record.recordID)")
             completionBlock(record)
         }
-//        operation.completionBlock = {
+        operation.completionBlock = {
+            debugPrint("Completed queryPoll")
 //            completionBlock()
-//        }
+        }
         RecordOperation.publicDB.add(operation)
     }
     

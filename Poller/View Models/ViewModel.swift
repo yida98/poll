@@ -19,8 +19,9 @@ class ViewModel: ObservableObject {
     
     private var asyncFetch: AnyPublisher<[Poll], Never> {
         return Future<Poll, Never> { promise in
-            debugPrint("I'm inside a promise")
+            // TODO: NOT OWN POLL IN THE FUTURE
             RecordOperation.queryPoll(with: NSPredicate.ownPollPredicate) { record in
+                // TODO: NOT BLOCKING?!
                 promise(.success(Poll(record: record)))
             }
         }
@@ -40,9 +41,11 @@ class ViewModel: ObservableObject {
     @objc
     func deleteRecordCompletion() {
         DispatchQueue.main.async {
-            self.completionCount += 1
-            // Check size
-            if self.match > 0 {
+            if self.match == 0 {
+                self.refresh()
+            } else {
+                self.completionCount += 1
+                // Check size
                 if self.completionCount >= self.match {
                     // If size match: refresh()
                     self.refresh()
@@ -59,8 +62,12 @@ class ViewModel: ObservableObject {
     private var match: Int = 0
     
     func deleteRecords(of types: [RecordType]) {
-        match = types.count
-        RecordOperation.deleteAllRecords(of: types)
+        if types.count == 0 {
+            NotificationCenter.default.post(name: .deleteRecordCompletion, object: nil)
+        } else {
+            match = types.count
+            RecordOperation.deleteAllRecords(of: types)
+        }
     }
     
     func refresh() {
