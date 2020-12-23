@@ -54,7 +54,10 @@ class AddViewModel: ObservableObject {
                 pollItems.append(pollItem)
             }
             let newPollRecord = Poll.create(title: title, creator: userRecord, pollRecords: pollItems)
-
+            // Dismiss view
+            DispatchQueue.main.async {
+                MenuModel.shared.tapNewPoll()
+            }
         }
     }
     

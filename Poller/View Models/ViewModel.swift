@@ -34,25 +34,29 @@ class ViewModel: ObservableObject {
 
     private init() {
         print("private init time")
+        
         NotificationCenter.default.addObserver(self, selector: #selector(deleteRecordCompletion), name: .deleteRecordCompletion, object: nil)
         deleteRecords(of: RecordType.allCases)
-//        refresh()
+        
+//        let timer = Timer.publish(every: 1, on: RunLoop.main, in: .default)
+//            .autoconnect()
+        
     }
     
     @objc
     func deleteRecordCompletion() {
         DispatchQueue.main.async {
-            if self.match == 0 {
+            if self.numTypesToDelete == 0 {
                 self.refresh()
             } else {
                 self.completionCount += 1
                 // Check size
-                if self.completionCount >= self.match {
+                if self.completionCount >= self.numTypesToDelete {
                     // If size match: refresh()
                     self.refresh()
                     // Reset match and completionCount
                     self.completionCount = 0
-                    self.match = 0
+                    self.numTypesToDelete = 0
                 }
             }
         }
@@ -60,18 +64,19 @@ class ViewModel: ObservableObject {
     
     @Published var completionCount: Int = 0
     
-    private var match: Int = 0
+    private var numTypesToDelete: Int = 0
     
     func deleteRecords(of types: [RecordType]) {
         if types.count == 0 {
             NotificationCenter.default.post(name: .deleteRecordCompletion, object: nil)
         } else {
-            match = types.count
+            numTypesToDelete = types.count
             RecordOperation.deleteAllRecords(of: types)
         }
     }
     
     func refresh() {
+        // TODO: if not full, refresh automatically 
         debugPrint("refreshing...")
         let originalCount = displayPolls.count
         if displayPolls.count < 3 {

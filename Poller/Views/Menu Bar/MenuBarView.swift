@@ -24,7 +24,7 @@ struct MenuBarView: View {
                     .shadow(radius: 6)
                 Image(menuModel.currMiddleImg)
             }.onTapGesture {
-                self.menuModel.newPoll()
+                self.menuModel.tapNewPoll()
             }
             .offset(y: -9)
             Spacer()

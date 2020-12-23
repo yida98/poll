@@ -46,7 +46,7 @@ class MenuModel: ObservableObject {
         }
     }
     
-    func newPoll() {
+    func tapNewPoll() {
         if cardDisplaying == false && userDisplaying == false {
             resetMiddelImg()
             tapCard()
