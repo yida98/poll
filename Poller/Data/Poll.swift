@@ -35,7 +35,7 @@ class Poll: Hashable, ObservableObject {
 //        RecordOperation.queryPollItems(for: record) { items in
 //            self.pollItems = items
 //        }
-        
+         
         guard let parent = record[PollKeys.creator.rawValue] as? CKRecord.Reference else {
             fatalError("This Poll doesn't belong to any User!")
         }
@@ -104,7 +104,7 @@ extension Poll {
         RecordOperation.batchSave(save: saves, delete: [])
     }
     
-    func getPollItems() -> [PollItem] {
+    func getPollItems(completionHandler: @escaping (_ pollItemResults: [PollItem]) -> () = { _ in }) {
         var results = [PollItem]()
         for reference in self.pollItemRefs {
             let group = DispatchGroup()
@@ -115,7 +115,8 @@ extension Poll {
             }
             group.wait()
         }
-        return results
+        self.pollItems = results
+        completionHandler(results)
     }
     
 }

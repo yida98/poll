@@ -21,9 +21,12 @@ class ViewModel: ObservableObject {
         return Future<Poll, Never> { promise in
             // TODO: NOT OWN POLL IN THE FUTURE
             RecordOperation.queryPoll(with: NSPredicate.ownPollPredicate) { record in
-                // TODO: NOT BLOCKING?!
+                // TODO: Async query pollItems, too
                 debugPrint("promise")
-                promise(.success(Poll(record: record)))
+                let poll = Poll(record: record)
+                poll.getPollItems() { results in
+                    promise(.success(poll))
+                }
             }
         }
         .map { [$0] }

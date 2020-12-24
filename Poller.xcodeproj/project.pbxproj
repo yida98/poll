@@ -108,12 +108,12 @@
 		E42AC55924B2F57C00E204BD /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E4E0BD5D24A30A7F00A72DEA /* ContentView.swift */,
 				E4C5C03724BC1ED400C1CBB1 /* SplashScreenView.swift */,
+				E4E0BD5D24A30A7F00A72DEA /* ContentView.swift */,
 				E4E5514124B3C8C90052BAE0 /* PollWrapperView.swift */,
+				E4E5513B24B2FCA70052BAE0 /* PollView.swift */,
 				E4AB9B90255A683E00EFC381 /* AddPollView.swift */,
 				E4AB9B94255A758E00EFC381 /* TextView.swift */,
-				E4E5513B24B2FCA70052BAE0 /* PollView.swift */,
 				E4E5513D24B2FCD90052BAE0 /* CardSwipeEffect.swift */,
 				E42AC56324B2F7B400E204BD /* Menu Bar */,
 				E4329BE824BC00F4006FFBD4 /* Custom Shapes */,
@@ -147,8 +147,8 @@
 			isa = PBXGroup;
 			children = (
 				E4E0BD7124A30AF000A72DEA /* ViewModel.swift */,
-				E4B5DF1624BBCDDB00E3B911 /* DisplayPollsModel.swift */,
 				E4AB9B97255A7F8200EFC381 /* AddViewModel.swift */,
+				E4B5DF1624BBCDDB00E3B911 /* DisplayPollsModel.swift */,
 				E4AB9B9A255B85D200EFC381 /* UserConstants.swift */,
 				E4B5DF1C24BBD46900E3B911 /* MenuModel.swift */,
 				E4E0BD7C24A8503A00A72DEA /* MockPolls.json */,
