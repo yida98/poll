@@ -33,9 +33,8 @@ struct AddPollView: View {
                                     .frame(width: Constant.pollItemSize.width - 20, height: Constant.pollItemSize.height)
                                     .foregroundColor(.white)
                                     .overlay(RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)
-                                                .stroke(Color.white, lineWidth: 2)
-                                                .frame(width: Constant.pollItemSize.width
-                                                        - 20, height: Constant.pollItemSize.height))
+                                        .stroke(Color.white, lineWidth: 2)
+                                        .frame(width: Constant.pollItemSize.width - 20, height: Constant.pollItemSize.height))
                                 Button("-") {
                                     viewModel.removeItem(at: viewModel.getIndexOf(item))
                                 }
@@ -49,8 +48,8 @@ struct AddPollView: View {
                                     .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
                                     .foregroundColor(.white)
                                     .overlay(RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)
-                                                .stroke(Color.white, lineWidth: 2)
-                                                .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height))
+                                        .stroke(Color.white, lineWidth: 2)
+                                        .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height))
                             }
                         }
                         .padding(.vertical, 5)
@@ -63,8 +62,8 @@ struct AddPollView: View {
                         .frame(width: Constant.pollItemSize.width*0.4, height: Constant.pollItemSize.height)
                         .foregroundColor(.white)
                         .overlay(RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)
-                                    .stroke(Color.white, lineWidth: 2)
-                                    .frame(width: Constant.pollItemSize.width*0.4, height: Constant.pollItemSize.height))
+                            .stroke(Color.white, lineWidth: 2)
+                            .frame(width: Constant.pollItemSize.width*0.4, height: Constant.pollItemSize.height))
                         .opacity(0.7)
                         .padding()
                         .disabled(viewModel.editMode)
@@ -72,8 +71,8 @@ struct AddPollView: View {
                         .frame(width: Constant.pollItemSize.width*0.4, height: Constant.pollItemSize.height)
                         .foregroundColor(.white)
                         .overlay(RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)
-                                    .stroke(Color.white, lineWidth: 2)
-                                    .frame(width: Constant.pollItemSize.width*0.4, height: Constant.pollItemSize.height))
+                            .stroke(Color.white, lineWidth: 2)
+                            .frame(width: Constant.pollItemSize.width*0.4, height: Constant.pollItemSize.height))
                         .opacity(0.7)
                         .padding()
 

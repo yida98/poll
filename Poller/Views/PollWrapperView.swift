@@ -84,6 +84,7 @@ struct PollWrapperView: View {
             .opacity(self.cardIndex == 0 ? 1 : 0.6)
             .scaleEffect(self.cardIndex == 0 ? 1 : 0.9, anchor: .bottom)
             .modifier(CardSwipeEffect(offset: offset))
+            .padding()
     }
 }
 

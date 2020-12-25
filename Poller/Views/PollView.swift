@@ -15,21 +15,24 @@ struct PollView: View {
     var body: some View {
         VStack {
             Text(poll.title) // Title
-                .foregroundColor(.orange)
-            VStack{
+                .foregroundColor(Color.orange)
+                .frame(width: 294, height: 130, alignment: .bottom)
+                .font(.custom("Avenir-Heavy", size: 28))
+                .multilineTextAlignment(.center)
+                .minimumScaleFactor(0.4)
+            ScrollView (.vertical, showsIndicators: false) {
                 ForEach(poll.pollItems.indices, id: \.self) { itemIndex in
                     Text(String(itemIndex))
                         .padding(.horizontal, 20)
                         .multilineTextAlignment(.center)
                         .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
                         .foregroundColor(Color.gray)
-                        .overlay(RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)
-                            .stroke()
-                            .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
-                            .shadow(radius: 4)
-
-                        )
-                }
+                        .background(
+                            RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)
+                                .fill(Color.white)
+                                .shadow(color: .gray, radius: 2, x: 0, y: 2)
+                    )
+                }.padding()
             }
         }
     }
