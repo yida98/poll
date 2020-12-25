@@ -15,11 +15,11 @@ struct PollWrapperView: View {
     @State var cardIndex: Int
     @State var offset: CGFloat = 0 // TODO: reset to 0 when view comes back
     
-//    @ObservedObject var poll: Poll
+    @ObservedObject var poll: Poll
 
     var body: some View {
         VStack {
-            PollView()
+            PollView(poll: poll)
             
 //            VStack {
 //                ZStack(alignment: .bottom) {
@@ -87,8 +87,3 @@ struct PollWrapperView: View {
     }
 }
 
-struct PollWrapperView_Previews: PreviewProvider {
-    static var previews: some View {
-        PollWrapperView(cardIndex: 0)
-    }
-}

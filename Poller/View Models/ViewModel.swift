@@ -39,10 +39,10 @@ class ViewModel: ObservableObject {
         print("private init time")
         
         NotificationCenter.default.addObserver(self, selector: #selector(deleteRecordCompletion), name: .deleteRecordCompletion, object: nil)
-        deleteRecords(of: RecordType.allCases)
         
-//        let timer = Timer.publish(every: 1, on: RunLoop.main, in: .default)
-//            .autoconnect()
+//        let allCases = RecordType.allCases
+        let noCases = [RecordType]()
+        deleteRecords(of: noCases)
         
     }
     
@@ -86,7 +86,7 @@ class ViewModel: ObservableObject {
             asyncFetch
                 .receive(on: RunLoop.main)
                 .handleEvents(receiveOutput: { (polls) in
-                    debugPrint("received output \(polls)")
+                    debugPrint("received output \(polls.first!.pollItems.first!.title)")
                 }, receiveCompletion: { (subsComp) in
                     debugPrint("subs completion \(subsComp)")
                 }, receiveRequest: { (demand) in

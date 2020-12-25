@@ -11,13 +11,13 @@ import SwiftUI
 struct PollView: View {
     
     @ObservedObject var viewModel: ViewModel = ViewModel.shared
-    @State var index: Int = 0
+    @ObservedObject var poll: Poll
     var body: some View {
         VStack {
-            Text(viewModel.displayPolls[index].title) // Title
-                .foregroundColor(.blue)
+            Text(poll.title) // Title
+                .foregroundColor(.orange)
             VStack {
-                ForEach(viewModel.displayPolls[index].pollItems.indices, id: \.self) { itemIndex in
+                ForEach(poll.pollItems.indices, id: \.self) { itemIndex in
                     Text(String(itemIndex))
                         .padding(.horizontal, 20)
                         .multilineTextAlignment(.center)
@@ -25,18 +25,12 @@ struct PollView: View {
                         .foregroundColor(Color.gray)
                         shadow(radius: 4)
                         .overlay(RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)
-                                    .stroke()
-                                    .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
+                            .stroke()
+                            .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
                         )
                 }
             }
         }
     }
     
-}
-
-struct PollView_Previews: PreviewProvider {
-    static var previews: some View {
-        PollView()
-    }
 }

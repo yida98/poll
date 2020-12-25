@@ -106,6 +106,7 @@ extension Poll {
     
     func getPollItems(completionHandler: @escaping (_ pollItemResults: [PollItem]) -> () = { _ in }) {
         RecordOperation.queryPollItems(with: self.pollItemRefs) { results in
+            self.pollItems = results
             completionHandler(results)
         }
     }

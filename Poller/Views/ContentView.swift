@@ -19,7 +19,7 @@ struct ContentView: View {
                 if viewModel.displayPolls.count >= 1 { (ZStack {
                     ForEach(viewModel.displayPolls.indices, id: \.self) { int in
 //                        Text(viewModel.displayPolls[0].title)
-                        PollWrapperView(cardIndex: 0)//, poll: self.viewModel.displayPolls[int])
+                        PollWrapperView(cardIndex: 0, poll: self.viewModel.displayPolls[int])
                     }
                 }) } else {
                     Text("hi")
