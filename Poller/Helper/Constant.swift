@@ -32,7 +32,7 @@ class Constant {
         return CGSize(width: Constant.pollSize.width - 80, height: 40)
     }
     
-    static var pollItemInset: CGFloat = 1
+    static var pollItemInset: CGFloat = 2
     
     static var pollItemInsetSize: CGSize = CGSize(width: Constant.pollItemSize.width - (Constant.pollItemInset * 2), height: Constant.pollItemSize.height - (Constant.pollItemInset * 2))
 }

@@ -13,6 +13,7 @@ struct PollView: View {
     @ObservedObject var viewModel: ViewModel = ViewModel.shared
     @ObservedObject var poll: Poll
     var body: some View {
+        
         VStack {
             Text(poll.title) // Title
                 .foregroundColor(Color.orange)
@@ -22,16 +23,17 @@ struct PollView: View {
                 .minimumScaleFactor(0.4)
             ScrollView (.vertical, showsIndicators: false) {
                 ForEach(poll.pollItems.indices, id: \.self) { itemIndex in
-                    Text(String(itemIndex))
-                        .padding(.horizontal, 20)
-                        .multilineTextAlignment(.center)
-                        .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
-                        .foregroundColor(Color.gray)
-                        .background(
-                            RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)
-                                .fill(Color.white)
-                                .shadow(color: .gray, radius: 2, x: 0, y: 2)
-                    )
+                    PollItemView()
+//                    Text(String(itemIndex))
+//                        .padding(.horizontal, 20)
+//                        .multilineTextAlignment(.center)
+//                        .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
+//                        .foregroundColor(Color.gray)
+//                        .background(
+//                            RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)
+//                                .fill(Color.white)
+//                                .shadow(color: .gray, radius: 2, x: 0, y: 2)
+//                    )
                 }.padding()
             }
         }
