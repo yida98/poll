@@ -14,25 +14,21 @@ struct PollView: View {
     @State var index: Int = 0
     var body: some View {
         VStack {
-            if viewModel.displayPolls.count > 0 {
-                Text(viewModel.displayPolls[index].title) // Title
-                    .foregroundColor(.blue)
-                VStack {
-                    ForEach(viewModel.displayPolls[index].pollItemRefs.indices, id: \.self) { itemIndex in
-                        Text(String(viewModel.displayPolls[index].pollItemRefs.count))
-                            .padding(.horizontal, 20)
-                            .multilineTextAlignment(.center)
-                            .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
-                            .foregroundColor(Color.gray)
-                            shadow(radius: 4)
-                            .overlay(RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)
-                                        .stroke()
-                                        .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
-                            )
-                    }
+            Text(viewModel.displayPolls[index].title) // Title
+                .foregroundColor(.blue)
+            VStack {
+                ForEach(viewModel.displayPolls[index].pollItems.indices, id: \.self) { itemIndex in
+                    Text(String(itemIndex))
+                        .padding(.horizontal, 20)
+                        .multilineTextAlignment(.center)
+                        .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
+                        .foregroundColor(Color.gray)
+                        shadow(radius: 4)
+                        .overlay(RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)
+                                    .stroke()
+                                    .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height)
+                        )
                 }
-            } else {
-                Text("pop")
             }
         }
     }

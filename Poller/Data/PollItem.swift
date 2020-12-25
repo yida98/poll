@@ -13,18 +13,22 @@ class PollItem: Hashable, ObservableObject {
     
     var title: String
 //    var insertionIndex: Int?
-    var poll: CKRecord.Reference
+//    var poll: CKRecord.Reference
     var votedBy: Set<CKRecord.Reference>
     
     var record: CKRecord
     
     init(record: CKRecord) {
         self.title = record[PollItemKeys.title.rawValue] as! String
-        self.votedBy = record[PollItemKeys.votedBy.rawValue] as! Set<CKRecord.Reference>
-        guard let poll = record[PollItemKeys.poll.rawValue] as? CKRecord.Reference else {
-            fatalError("This PollItem doesn't belong to any Poll!")
+        if let prevVotedBy = record[PollItemKeys.votedBy.rawValue] as? Set<CKRecord.Reference> {
+            self.votedBy = prevVotedBy
+        } else {
+            self.votedBy = Set<CKRecord.Reference>()
         }
-        self.poll = poll
+//        guard let poll = record[PollItemKeys.poll.rawValue] as? CKRecord.Reference else {
+//            fatalError("This PollItem doesn't belong to any Poll!")
+//        }
+//        self.poll = poll
 
         self.record = record
     }
@@ -36,7 +40,8 @@ class PollItem: Hashable, ObservableObject {
 //        record.setParent(parent.recordID)
 //        let parentRef = CKRecord.Reference(recordID: parent.recordID, action: .deleteSelf)
 //        record.setValue(parentRef, forKey: PollItemKeys.poll.rawValue)
-//        record.setValue(self.votedBy, forKey: PollItemKeys.votedBy.rawValue)
+//        let votedBy = Set<CKRecord.Reference>()
+//        record.setValue(votedBy, forKey: PollItemKeys.votedBy.rawValue)
         
         RecordOperation.batchSave(save: [record], delete: [])
 
@@ -54,14 +59,14 @@ class PollItem: Hashable, ObservableObject {
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(title)
-        hasher.combine(poll)
+//        hasher.combine(poll)
         hasher.combine(votedBy)
     }
     
     static func == (lhs: PollItem, rhs: PollItem) -> Bool {
         return lhs.title == rhs.title
 //            && lhs.insertionIndex == rhs.insertionIndex
-            && lhs.poll == rhs.poll
+//            && lhs.poll == rhs.poll
             && lhs.votedBy == rhs.votedBy
     }
 }

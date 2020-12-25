@@ -105,18 +105,9 @@ extension Poll {
     }
     
     func getPollItems(completionHandler: @escaping (_ pollItemResults: [PollItem]) -> () = { _ in }) {
-        var results = [PollItem]()
-        for reference in self.pollItemRefs {
-            let group = DispatchGroup()
-            group.enter()
-            RecordOperation.fetch(reference.recordID) { (record) in
-                results.append(PollItem(record: record))
-                group.leave()
-            }
-            group.wait()
+        RecordOperation.queryPollItems(with: self.pollItemRefs) { results in
+            completionHandler(results)
         }
-        self.pollItems = results
-        completionHandler(results)
     }
     
 }

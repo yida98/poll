@@ -22,9 +22,9 @@ class ViewModel: ObservableObject {
             // TODO: NOT OWN POLL IN THE FUTURE
             RecordOperation.queryPoll(with: NSPredicate.ownPollPredicate) { record in
                 // TODO: Async query pollItems, too
-                debugPrint("promise")
                 let poll = Poll(record: record)
                 poll.getPollItems() { results in
+                    debugPrint("iPromise")
                     promise(.success(poll))
                 }
             }

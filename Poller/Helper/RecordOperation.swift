@@ -8,28 +8,29 @@
 
 import Foundation
 import CloudKit
+import Combine
 
 struct RecordOperation {
     
     static var publicDB = CKContainer.default().publicCloudDatabase
     static var privateDB = CKContainer.default().privateCloudDatabase
     
-    static func save(_ record: CKRecord) {
-        let group = DispatchGroup()
-        group.enter()
-        RecordOperation.publicDB.save(record) { (savedRecord, error) in
-            if let error = error {
-                // TODO: Error handling
-                fatalError("Encountered \(error) while singularly saving \(record)")
-            } else {
-                // TODO: What happens after a record is saved
-                debugPrint("CKRecord of type \(savedRecord!.recordType.debugDescription) successfully saved")
-                debugPrint("always first")
-                group.leave()
-            }
-        }
-        group.wait()
-    }
+//    static func save(_ record: CKRecord) {
+//        let group = DispatchGroup()
+//        group.enter()
+//        RecordOperation.publicDB.save(record) { (savedRecord, error) in
+//            if let error = error {
+//                // TODO: Error handling
+//                fatalError("Encountered \(error) while singularly saving \(record)")
+//            } else {
+//                // TODO: What happens after a record is saved
+//                debugPrint("CKRecord of type \(savedRecord!.recordType.debugDescription) successfully saved")
+//                debugPrint("always first")
+//                group.leave()
+//            }
+//        }
+//        group.wait()
+//    }
     
     static func fetch(_ recordID: CKRecord.ID, completionHandler: @escaping (CKRecord) -> Void) {
         RecordOperation.publicDB.fetch(withRecordID: recordID) { (record, error) in
@@ -152,6 +153,22 @@ struct RecordOperation {
             completionBlock(results)
         }
     }
+    
+    static func queryPollItems(with pollItemRefs: [CKRecord.Reference], completionBlock: @escaping ([PollItem])->() = { _ in}) {
+        let totalItems = pollItemRefs.count
+        var results = [PollItem]()
+        
+        for pollItemRef in pollItemRefs {
+            RecordOperation.fetch(pollItemRef.recordID) { (record) in
+                results.append(PollItem(record: record))
+                if results.count == totalItems {
+                    completionBlock(results)
+                }
+            }
+        }
+        
+    }
+    
     
 //    static func queryDisplayPolls() -> DisplayPollsModel {
 //        let query = CKQuery(recordType: RecordType.displayPolls.rawValue, predicate: NSPredicate(value: true))
