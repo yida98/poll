@@ -13,6 +13,8 @@ struct PollItemView: View {
     @State var pressing: Bool = false
     @State var location: CGPoint = CGPoint(x: Constant.pollItemInsetSize.height, y: 0)
     
+    @ObservedObject var pollItem: PollItem
+    
     var body: some View {
         let slideGesture =
             LongPressGesture(minimumDuration: 0.1, maximumDistance: 0).exclusively(before:
@@ -53,7 +55,7 @@ struct PollItemView: View {
                     }.padding(.leading, Constant.pollItemInset)
 
                     Group {
-                        Text("Lasagne")
+                        Text(pollItem.title)
                             .frame(maxWidth: Constant.pollItemSize.width - 30, alignment: .center)
                             .lineLimit(nil)
                             .foregroundColor(Color.navy)
@@ -70,11 +72,5 @@ struct PollItemView: View {
                     // TODO: Vote
                     
         }
-    }
-}
-
-struct PollItemView_Previews: PreviewProvider {
-    static var previews: some View {
-        PollItemView()
     }
 }
