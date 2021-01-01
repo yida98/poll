@@ -19,8 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 //        RecordOperation.deleteAllRecords(of: RecordType.allCases) // TODO: Need to know when its over
         UIScrollView.appearance().bounces = false
-        UIScrollView.appearance().canCancelContentTouches = false
-        UIView.appearance()
         return true
     }
 
