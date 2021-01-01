@@ -18,7 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
 
 //        RecordOperation.deleteAllRecords(of: RecordType.allCases) // TODO: Need to know when its over
-        
+        UIScrollView.appearance().bounces = false
+        UIScrollView.appearance().canCancelContentTouches = false
+        UIView.appearance()
         return true
     }
 

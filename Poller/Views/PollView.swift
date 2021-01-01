@@ -22,7 +22,7 @@ struct PollView: View {
                 .multilineTextAlignment(.center)
                 .minimumScaleFactor(0.4)
             ScrollView (.vertical, showsIndicators: false) {
-                ForEach(poll.pollItems.indices, id: \.self) { itemIndex in
+                ForEach(0..<18) { itemIndex in
                     PollItemView()
 //                    Text(String(itemIndex))
 //                        .padding(.horizontal, 20)

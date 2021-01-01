@@ -15,23 +15,27 @@ struct PollItemView: View {
     
     var body: some View {
         let slideGesture =
-            DragGesture(minimumDistance: 0)//, coordinateSpace: .named("slide"))
-            .onChanged({ (value) in
-                self.pressing = true
-                if value.location.x < Constant.pollItemInsetSize.width {
-                    self.location = value.location
-                }
-            })
-            .onEnded({ (value) in
-                if value.location.x < Constant.pollItemInsetSize.width * (5/6) {
-                    self.pressing = false
-                    self.location = CGPoint(x: Constant.pollItemInsetSize.height, y: value.location.y)
-                } else {
-                    let endPoint = CGPoint(x: Constant.pollItemInsetSize.width, y: value.location.y)
-                    self.pressing = false
-                    self.location = endPoint
-                }
-            })
+            LongPressGesture(minimumDuration: 0.1, maximumDistance: 0).exclusively(before:
+                DragGesture(minimumDistance: 0)//, coordinateSpace: .named("slide"))
+                .onChanged({ (value) in
+                    self.pressing = true
+                    if value.location.x < Constant.pollItemInsetSize.width {
+                        self.location = value.location
+                    }
+                    debugPrint("changing")
+                })
+                .onEnded({ (value) in
+                    if value.location.x < Constant.pollItemInsetSize.width * (5/6) {
+                        self.pressing = false
+                        self.location = CGPoint(x: Constant.pollItemInsetSize.height, y: value.location.y)
+                    } else {
+                        let endPoint = CGPoint(x: Constant.pollItemInsetSize.width, y: value.location.y)
+                        self.pressing = false
+                        self.location = endPoint
+                    }
+                    debugPrint("ended gesture")
+                })
+            )
         
         return HStack {
             VStack(alignment: .leading) {
