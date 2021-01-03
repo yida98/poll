@@ -30,11 +30,9 @@ struct CardSwipeEffect: GeometryEffect {
             
             return ProjectionTransform(transformationRotation.concatenating(transformationOffset))
         } else if offset == -900 {
-//            DispatchQueue.main.async {
-//                viewManager.toggle()
-//            }
-            
-            print("oh no")
+            DispatchQueue.main.async {
+                viewModel.removeOne()
+            }
             return ProjectionTransform()
         }
 

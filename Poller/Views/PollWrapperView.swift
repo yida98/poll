@@ -85,6 +85,27 @@ struct PollWrapperView: View {
             .scaleEffect(self.cardIndex == 0 ? 1 : 0.9, anchor: .bottom)
             .modifier(CardSwipeEffect(offset: offset))
             .padding()
+            .gesture(DragGesture()
+                .onChanged({ (value) in
+                    if (value.location.x - value.startLocation.x) < -40 {
+                        self.offset = (value.location.x - value.startLocation.x) + 40
+                    }
+                })
+                .onEnded({ (value) in
+                    if (value.location.x - value.startLocation.x) < -130 {
+
+                        withAnimation {
+                            self.offset = -900
+                        }
+
+                    } else {
+                        withAnimation(.interactiveSpring()) {
+                            self.offset = 0
+                        }
+                    }
+
+                })
+                )
     }
 }
 

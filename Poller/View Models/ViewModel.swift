@@ -111,7 +111,7 @@ class ViewModel: ObservableObject {
     
     func removeOne() {
         if !displayPolls.isEmpty {
-            displayPolls.remove(at: 0)
+            displayPolls.removeFirst()
         }
     }
     
