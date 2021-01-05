@@ -87,7 +87,7 @@ struct AddPollView: View {
                     .disabled(!viewModel.deployable)
                 
             }
-            .frame(width: Constant.pollSize.width, height: Constant.pollSize.height * 1.1)
+            .frame(width: Constant.pollSize.width, height: Constant.pollSize.height * 1.125)
             .background(RoundedGeoView(color: Color.darkOrange, tl: 0, tr: 0, bl: 50, br: 50))
             
             Spacer()
@@ -97,11 +97,5 @@ struct AddPollView: View {
         .offset(y: viewModel.showing ? 0 : -Constant.screenSize.height)
         .edgesIgnoringSafeArea(.all)
 
-    }
-}
-
-struct AddPollView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddPollView()
     }
 }

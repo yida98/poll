@@ -121,18 +121,20 @@ struct RecordOperation {
 //
 //    }
     
-    static func queryPoll(with predicate: NSPredicate, limit: Int = 1, completionBlock: @escaping (_ record: CKRecord)->() = { _ in }) {
+    static func queryPoll(with predicate: NSPredicate, limit: Int = 1, completionBlock: @escaping (_ records: [CKRecord])->() = { _ in }) {
         let query = CKQuery(recordType: RecordType.poll.rawValue, predicate: predicate)
         let operation = CKQueryOperation(query: query)
         operation.resultsLimit = limit
+        var records = [CKRecord]()
         operation.recordFetchedBlock = { record in
 //            ViewModel.shared.addPoll(Poll(record: record))
             debugPrint("Fetched \(record.recordID)")
-            completionBlock(record)
+            records.append(record)
         }
         operation.completionBlock = {
             debugPrint("Completed queryPoll")
 //            completionBlock()
+            completionBlock(records)
         }
         RecordOperation.publicDB.add(operation)
     }

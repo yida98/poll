@@ -14,22 +14,47 @@ class ViewModel: ObservableObject {
     
     static let shared = ViewModel()
     
-    @Published var displayPolls = [Poll]()
-    @Published var showSplash = true
-    
-    private var asyncFetch: AnyPublisher<[Poll], Never> {
-        return Future<Poll, Never> { promise in
-            // TODO: NOT OWN POLL IN THE FUTURE
-            RecordOperation.queryPoll(with: NSPredicate.ownPollPredicate) { record in
-                // TODO: Async query pollItems, too
-                let poll = Poll(record: record)
-                poll.getPollItems() { results in
-                    debugPrint("iPromise")
-                    promise(.success(poll))
+    @Published var displayPolls: [Poll] = [Poll]() {
+        didSet {
+            if oldValue.count != displayPolls.count && displayPolls.count < 3 {
+                debugPrint("Retry refresh")
+                refresh()
+            } else {
+                debugPrint("Done refresh with \(displayPolls.count) in the bag")
+                if showSplash {
+                    toggleShow()
                 }
             }
         }
-        .map { [$0] }
+    }
+    @Published var showSplash = true
+        
+    private var asyncFetch: AnyPublisher<[Poll], Error> {
+        return Future<[Poll], Error> { promise in
+            // TODO: NOT OWN POLL IN THE FUTURE
+            RecordOperation.queryPoll(with: NSPredicate.ownPollPredicate) { records in
+                
+                // WARNING: Query limit is 1
+                if records.count > 0 {
+                    for record in records {
+                        let poll = Future<Poll, Error> { promise in
+                            let promisedPoll = Poll(record: record)
+                            promisedPoll.getPollItems() { results in
+                                promise(.success(promisedPoll))
+                            }
+                        }.eraseToAnyPublisher()
+                        
+                        poll.sink(
+                            receiveCompletion: { _ in },
+                            receiveValue: {finishedPolls.append($0)}
+                        )
+                    }
+                    promise(.success(finishedPolls))
+                } else {
+                    promise(.failure(myError.noFetch))
+                }
+            }
+        }
         .eraseToAnyPublisher()
     }
     
@@ -40,7 +65,7 @@ class ViewModel: ObservableObject {
         
         NotificationCenter.default.addObserver(self, selector: #selector(deleteRecordCompletion), name: .deleteRecordCompletion, object: nil)
         
-//        let allCases = RecordType.allCases
+        let allCases = RecordType.allCases
         let noCases = [RecordType]()
         deleteRecords(of: noCases)
         
@@ -81,27 +106,30 @@ class ViewModel: ObservableObject {
     func refresh() {
         // TODO: if not full, refresh automatically 
         debugPrint("refreshing...")
-        let originalCount = displayPolls.count
         if displayPolls.count < 3 {
             asyncFetch
                 .receive(on: RunLoop.main)
                 .handleEvents(receiveOutput: { (polls) in
-                    debugPrint("received output \(polls.first!.pollItems.first!.title)")
-                }, receiveCompletion: { (subsComp) in
-                    debugPrint("subs completion \(subsComp)")
+                    if polls.isEmpty {
+                        debugPrint("Received nothing as output")
+                    } else {
+                        debugPrint("received output: \(polls.first!.pollItems.first!.title)")
+                    }
+                }, receiveCompletion: { [self]  (subsComp) in
+                    debugPrint("subs completion status: \(subsComp)")
+                }, receiveCancel: {
+                    debugPrint("Cancelled")
                 }, receiveRequest: { (demand) in
-                    debugPrint("Demanda \(demand)")
+                    debugPrint("Demanda: \(demand)")
                 })
+                .catch({ (error) in
+                    Just([Poll]())
+                })
+                .prepend(displayPolls.count > 0 ? displayPolls : [])
                 .assign(to: \.displayPolls, on: self)
                 .store(in: &cancellableSet)
-            if displayPolls.count < 3 && originalCount != displayPolls.count {
-                
-                refresh()
-            } else {
-                // TODO: Done all refresh
-                debugPrint("Done!")
-                toggleShow()
-            }
+
+
         }
     }
     
@@ -112,6 +140,7 @@ class ViewModel: ObservableObject {
     func removeOne() {
         if !displayPolls.isEmpty {
             displayPolls.removeFirst()
+            // TODO: Display new one?
         }
     }
     

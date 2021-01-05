@@ -15,6 +15,7 @@
 		E42AC55B24B2F5DB00E204BD /* MenuBarItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42AC55A24B2F5DB00E204BD /* MenuBarItemView.swift */; };
 		E42AC55D24B2F62100E204BD /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42AC55C24B2F62100E204BD /* Constant.swift */; };
 		E42AC55F24B2F65C00E204BD /* RoundedGeoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42AC55E24B2F65C00E204BD /* RoundedGeoView.swift */; };
+		E43D6AD025A3E7DC00A18937 /* ErrorExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = E43D6ACF25A3E7DC00A18937 /* ErrorExt.swift */; };
 		E4AB9B91255A683E00EFC381 /* AddPollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4AB9B90255A683E00EFC381 /* AddPollView.swift */; };
 		E4AB9B95255A758E00EFC381 /* TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4AB9B94255A758E00EFC381 /* TextView.swift */; };
 		E4AB9B98255A7F8200EFC381 /* AddViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4AB9B97255A7F8200EFC381 /* AddViewModel.swift */; };
@@ -54,6 +55,7 @@
 		E42AC55A24B2F5DB00E204BD /* MenuBarItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarItemView.swift; sourceTree = "<group>"; };
 		E42AC55C24B2F62100E204BD /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		E42AC55E24B2F65C00E204BD /* RoundedGeoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedGeoView.swift; sourceTree = "<group>"; };
+		E43D6ACF25A3E7DC00A18937 /* ErrorExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorExt.swift; sourceTree = "<group>"; };
 		E4AB9B90255A683E00EFC381 /* AddPollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPollView.swift; sourceTree = "<group>"; };
 		E4AB9B94255A758E00EFC381 /* TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextView.swift; sourceTree = "<group>"; };
 		E4AB9B97255A7F8200EFC381 /* AddViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewModel.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				E42AC55C24B2F62100E204BD /* Constant.swift */,
 				E42AC55324B2C2AE00E204BD /* CloudKitHelper.swift */,
 				E4F95F8B258DB2C3008C048C /* NotificationCenter+ext.swift */,
+				E43D6ACF25A3E7DC00A18937 /* ErrorExt.swift */,
 				E4E0BD7A24A313FD00A72DEA /* RecordType.swift */,
 				E4B5DF1A24BBD1B800E3B911 /* RecordOperation.swift */,
 			);
@@ -336,6 +339,7 @@
 				E42AC55624B2F53C00E204BD /* ColorExt.swift in Sources */,
 				E4E5514224B3C8C90052BAE0 /* PollWrapperView.swift in Sources */,
 				E412BE752595CD5900C9324D /* PollItemView.swift in Sources */,
+				E43D6AD025A3E7DC00A18937 /* ErrorExt.swift in Sources */,
 				E4E5514024B2FE740052BAE0 /* RoundedTitleGeoView.swift in Sources */,
 				E4F95F8C258DB2C3008C048C /* NotificationCenter+ext.swift in Sources */,
 				E4E0BD5A24A30A7F00A72DEA /* AppDelegate.swift in Sources */,

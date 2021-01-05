@@ -61,6 +61,11 @@ class AddViewModel: ObservableObject {
         }
     }
     
+    func reset() {
+        title = ""
+        pollItems = [PollItemWithIndex]()
+    }
+    
     
     // MARK: Publishers
     private var isTitleValidPublisher: AnyPublisher<Bool, Never> {
@@ -92,6 +97,7 @@ class AddViewModel: ObservableObject {
             .receive(on: RunLoop.main)
             .assign(to: \.deployable, on: self)
             .store(in: &cancellableSet)
+        
     }
 }
 

@@ -21,6 +21,7 @@ struct PollView: View {
                 .font(.custom("Avenir-Heavy", size: 28))
                 .multilineTextAlignment(.center)
                 .minimumScaleFactor(0.4)
+                .padding()
             ScrollView (.vertical, showsIndicators: false) {
                 ForEach(poll.pollItems.indices, id: \.self) { itemIndex in
                     PollItemView(pollItem: poll.pollItems[itemIndex])

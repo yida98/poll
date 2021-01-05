@@ -58,9 +58,9 @@ class DisplayPollsModel: ObservableObject {
 //        return first
 //    }
     
-    static private func repopulate() {
-        RecordOperation.queryPoll(with: NSPredicate.wildPollPredicate, limit: 15)
-    }
+//    static private func repopulate() {
+//        RecordOperation.queryPoll(with: NSPredicate.wildPollPredicate, limit: 15)
+//    }
     
 //    private func updateSessionRecords() {
 //        sessionRecordIDs = polls.compactMap { $0.record.recordID }
