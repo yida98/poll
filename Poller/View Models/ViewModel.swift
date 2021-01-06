@@ -30,28 +30,37 @@ class ViewModel: ObservableObject {
     @Published var showSplash = true
         
     private var asyncFetch: AnyPublisher<[Poll], Error> {
-        return Future<[Poll], Error> { promise in
-            // TODO: NOT OWN POLL IN THE FUTURE
-            RecordOperation.queryPoll(with: NSPredicate.ownPollPredicate) { records in
+        return Future <[Poll], Error> { promise in
+            /* This is for batch fetch which works for init and the user's own polls */
+            RecordOperation.queryPoll(with: NSPredicate.ownPollPredicate, limit: 3) { records in
                 
-                // WARNING: Query limit is 1
-                if records.count > 0 {
-                    for record in records {
-                        let poll = Future<Poll, Error> { promise in
-                            let promisedPoll = Poll(record: record)
-                            promisedPoll.getPollItems() { results in
-                                promise(.success(promisedPoll))
+                var results = [Poll]()
+                
+                for record in records {
+                    let _ = Future<Poll, Error> { promise in
+                        let poll = Poll(record: record)
+                        poll.getPollItems() { pollItemResults in
+                            debugPrint("[iPromise] Was this ever called")
+                            promise(.success(poll))
+                            pollItemResults.count > 0 ? promise(.success(poll)) : promise(.failure(myError.noFetch))
+                        }
+                    }.sink(receiveCompletion: { completion in
+                        switch completion {
+                        case .failure(myError.noFetch):
+                            debugPrint("[iPromise] Failed to complete sink...")
+                        case .finished:
+                            debugPrint("[iPromise] Finished individual sink...")
+                            if results.count == records.count {
+                                promise(.success(results))
+                                debugPrint("[iPromise] Finished all sink...")
                             }
-                        }.eraseToAnyPublisher()
-                        
-                        poll.sink(
-                            receiveCompletion: { _ in },
-                            receiveValue: {finishedPolls.append($0)}
-                        )
-                    }
-                    promise(.success(finishedPolls))
-                } else {
-                    promise(.failure(myError.noFetch))
+                        default: ()
+                        }
+                    }, receiveValue: {
+                        debugPrint("[iPromise] Appending \($0.title)")
+                        results.append($0)
+                       })
+                        .store(in: &self.cancellableSet)
                 }
             }
         }
