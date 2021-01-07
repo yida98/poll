@@ -24,5 +24,8 @@ extension Color {
     static let lightGrey = Color(white: 0.95)
     
     static let mediumGrey = Color(white: 0.9)
+    
+    static let offWhite1 = Color(red: 247/255, green: 250/255, blue: 254/255)
+    static let offWhite2 = Color(red: 192/255, green: 198/255, blue: 206/255)
 
 }
