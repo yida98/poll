@@ -95,7 +95,7 @@ struct PollWrapperView: View {
                     if (value.location.x - value.startLocation.x) < -130 {
 
                         withAnimation {
-                            self.offset = -900
+                            self.offset = -901
                         }
 
                     } else {

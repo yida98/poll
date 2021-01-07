@@ -21,15 +21,18 @@ struct CardSwipeEffect: GeometryEffect {
     }
     
     func effectValue(size: CGSize) -> ProjectionTransform {
+        var transformationOffset = CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
+        var rad = Angle(degrees: Double(0)).radians
+        var transformationRotation = CGAffineTransform(rotationAngle: CGFloat(rad))
         if offset < -40 {
+            transformationOffset = CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: offset + 40, ty: 0)
+            rad = Angle(degrees: Double((offset + 40)/20)).radians
+            transformationRotation = CGAffineTransform(rotationAngle: CGFloat(rad))
             // if the offset becomes less than -900, change binding to 0
-            let transformationOffset = CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: offset + 40, ty: 0)
-            let rad = Angle(degrees: Double((offset + 40)/20)).radians
-            let transformationRotation = CGAffineTransform(rotationAngle: CGFloat(rad))
             if offset > -900 {
                 
                 return ProjectionTransform(transformationRotation.concatenating(transformationOffset))
-            } else if offset == -900 {
+            } else if offset <= -900 {
                 DispatchQueue.main.async {
                     viewModel.removeOne()
                 }
@@ -37,8 +40,7 @@ struct CardSwipeEffect: GeometryEffect {
             }
 
         }
-
-        return ProjectionTransform(CGAffineTransform(rotationAngle: 0))
+        return ProjectionTransform(transformationRotation.concatenating(transformationOffset))
     }
     
 }
