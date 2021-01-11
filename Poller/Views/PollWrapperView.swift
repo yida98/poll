@@ -98,10 +98,6 @@ struct PollWrapperView: View {
                         withAnimation {
                             self.offset = -900
                         }
-                        withAnimation {
-                            ViewModel.shared.removeOne()
-                        }
-
                     } else {
                         withAnimation(.interactiveSpring()) {
                             self.offset = 0

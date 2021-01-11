@@ -119,7 +119,6 @@
 				E412BE742595CD5900C9324D /* PollItemView.swift */,
 				E4AB9B90255A683E00EFC381 /* AddPollView.swift */,
 				E4AB9B94255A758E00EFC381 /* TextView.swift */,
-				E4E5513D24B2FCD90052BAE0 /* CardSwipeEffect.swift */,
 				E42AC56324B2F7B400E204BD /* Menu Bar */,
 				E4329BE824BC00F4006FFBD4 /* Custom Shapes */,
 			);
@@ -136,6 +135,7 @@
 				E43D6ACF25A3E7DC00A18937 /* ErrorExt.swift */,
 				E4E0BD7A24A313FD00A72DEA /* RecordType.swift */,
 				E4B5DF1A24BBD1B800E3B911 /* RecordOperation.swift */,
+				E4E0B3E525ABE84300AC406B /* Animation */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -169,6 +169,14 @@
 				E4E5513F24B2FE740052BAE0 /* RoundedTitleGeoView.swift */,
 			);
 			path = "Custom Shapes";
+			sourceTree = "<group>";
+		};
+		E4E0B3E525ABE84300AC406B /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				E4E5513D24B2FCD90052BAE0 /* CardSwipeEffect.swift */,
+			);
+			path = Animation;
 			sourceTree = "<group>";
 		};
 		E4E0BD4D24A30A7F00A72DEA = {

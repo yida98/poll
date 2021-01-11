@@ -17,7 +17,11 @@ struct CardSwipeEffect: GeometryEffect {
     
     var animatableData: CGFloat {
         get { offset }
-        set { offset = newValue }
+        set { offset = newValue
+            if offset == -900 {
+                viewModel.removeOne()
+            }
+        }
     }
     
     func effectValue(size: CGSize) -> ProjectionTransform {
@@ -29,6 +33,7 @@ struct CardSwipeEffect: GeometryEffect {
             rad = Angle(degrees: Double((offset + 40)/20)).radians
             transformationRotation = CGAffineTransform(rotationAngle: CGFloat(rad))
             // if the offset becomes less than -900, change binding to 0?????
+            
             return ProjectionTransform(transformationRotation.concatenating(transformationOffset))
         }
         return ProjectionTransform(transformationRotation.concatenating(transformationOffset))
