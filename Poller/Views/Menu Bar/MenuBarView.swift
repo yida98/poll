@@ -21,7 +21,7 @@ struct MenuBarView: View {
                     .frame(width: 68
                         , height: 68)
                     .foregroundColor(Color.darkOrange)
-                    .shadow(radius: 6)
+                    .shadow(radius: 4)
                 Image(menuModel.currMiddleImg)
             }.onTapGesture {
                 self.menuModel.tapNewPoll()

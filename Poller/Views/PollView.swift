@@ -12,7 +12,7 @@ struct PollView: View {
     
     @ObservedObject var viewModel: ViewModel = ViewModel.shared
     @ObservedObject var poll: Poll
-    var body: some View {
+        var body: some View {
         
         VStack {
             Text(poll.title) // Title

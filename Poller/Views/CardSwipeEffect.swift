@@ -28,17 +28,8 @@ struct CardSwipeEffect: GeometryEffect {
             transformationOffset = CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: offset + 40, ty: 0)
             rad = Angle(degrees: Double((offset + 40)/20)).radians
             transformationRotation = CGAffineTransform(rotationAngle: CGFloat(rad))
-            // if the offset becomes less than -900, change binding to 0
-            if offset > -900 {
-                
-                return ProjectionTransform(transformationRotation.concatenating(transformationOffset))
-            } else if offset <= -900 {
-                DispatchQueue.main.async {
-                    viewModel.removeOne()
-                }
-                return ProjectionTransform(transformationRotation.concatenating(transformationOffset))
-            }
-
+            // if the offset becomes less than -900, change binding to 0?????
+            return ProjectionTransform(transformationRotation.concatenating(transformationOffset))
         }
         return ProjectionTransform(transformationRotation.concatenating(transformationOffset))
     }

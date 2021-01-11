@@ -14,10 +14,11 @@ class ViewModel: ObservableObject {
     
     static let shared = ViewModel()
     
+    // Zeroth is at the bottom of the UI stack
     @Published var displayPolls: [Poll] = [Poll]() {
         didSet {
-            debugPrint("Did set display polls with current count of \(displayPolls.count)")
-            if oldValue.count != displayPolls.count && displayPolls.count < 3 {
+            debugPrint("Did set display polls with current count of \(displayPolls.count), \(oldValue.count)")
+            if displayPolls.count < 3  {
                 debugPrint("Retry refresh")
                 update()
             } else {
@@ -41,23 +42,19 @@ class ViewModel: ObservableObject {
                     let _ = Future<Poll, Error> { promise in
                         let poll = Poll(record: record)
                         poll.getPollItems() { pollItemResults in
-                            debugPrint("[iPromise] Was this ever called")
                             pollItemResults.count > 0 ? promise(.success(poll)) : promise(.failure(myError.noFetch))
                         }
                     }.sink(receiveCompletion: { completion in
                         switch completion {
                         case .failure(myError.noFetch):
-                            debugPrint("[iPromise] Failed to complete sink...")
+                            debugPrint("[iPromise] Failed to complete batch sink...")
                         case .finished:
-                            debugPrint("[iPromise] Finished individual sink...")
                             if results.count == records.count {
                                 promise(.success(results))
-                                debugPrint("[iPromise] Finished all sink...")
                             }
                         default: ()
                         }
                     }, receiveValue: {
-                        debugPrint("[iPromise] Appending \($0.title)")
                         results.append($0)
                        })
                         .store(in: &self.cancellableSet)
@@ -72,24 +69,25 @@ class ViewModel: ObservableObject {
             /* This is for individual fetch which works for updating */
             RecordOperation.queryPoll(with: NSPredicate.ownPollPredicate) { records in
             
-                for record in records {
+                for record in records { // 1
                     let _ = Future<Poll, Error> { promise in
                         let poll = Poll(record: record)
                         poll.getPollItems() { pollItemResults in
-                            debugPrint("[iPromise] Was this ever called")
                             pollItemResults.count > 0 ? promise(.success(poll)) : promise(.failure(myError.noFetch))
                         }
                     }.sink(receiveCompletion: { completion in
                         switch completion {
                         case .failure(myError.noFetch):
-                            debugPrint("[iPromise] Failed to complete sink...")
+                            debugPrint("[iPromise] Failed to complete individual sink...")
                         case .finished:
-                            debugPrint("[iPromise] Finished all sink...")
+                            debugPrint("[iPromise] Successfully completed individual sink... For \(records.count) records")
                         default: ()
                         }
                     }, receiveValue: {
-                        debugPrint("[iPromise] Appending \($0.title)")
-                        promise(.success([$0]))
+                        debugPrint("Promise success for individual fetch function \($0.title)")
+                        
+                        let newList = [$0] + self.displayPolls
+                        promise(.success(newList))
                        })
                         .store(in: &self.cancellableSet)
                 }
@@ -102,8 +100,6 @@ class ViewModel: ObservableObject {
     private var cancellableSet: Set<AnyCancellable> = []
 
     private init() {
-        print("private init time")
-        
         NotificationCenter.default.addObserver(self, selector: #selector(deleteRecordCompletion), name: .deleteRecordCompletion, object: nil)
         
         let allCases = RecordType.allCases
@@ -158,7 +154,6 @@ class ViewModel: ObservableObject {
         asyncFetch
             .receive(on: RunLoop.main)
             .catch({ error in Just([Poll]()) })
-            .prepend(displayPolls.count > 0 ? displayPolls : [])
             .assign(to: \.displayPolls, on: self)
             .store(in: &cancellableSet)
     }
@@ -168,9 +163,9 @@ class ViewModel: ObservableObject {
     }
     
     func removeOne() {
+        debugPrint("Remove one!")
         if !displayPolls.isEmpty {
-            displayPolls.removeFirst()
-            // TODO: Display new one?
+            displayPolls.removeLast()
         }
     }
     

@@ -16,10 +16,11 @@ struct ContentView: View {
         ZStack {
             VStack{
                 Spacer()
-                if viewModel.displayPolls.count >= 1 { (ZStack {
-                    ForEach(viewModel.displayPolls.indices, id: \.self) { int in
+                if viewModel.displayPolls.count > 0 { (ZStack {
+                    ForEach(viewModel.displayPolls.indices, id: \.self) { index in
 //                        Text(viewModel.displayPolls[0].title)
-                        PollWrapperView(cardIndex: 0, poll: self.viewModel.displayPolls[int])
+                        PollWrapperView(cardIndex: Double(index), total: Double(viewModel.displayPolls.count), poll: self.viewModel.displayPolls[index])
+                        
                     }
                 }) } else {
                     Text("hi")

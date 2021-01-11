@@ -12,7 +12,8 @@ import SwiftUI
 struct PollWrapperView: View {
 //    @ObservedObject var viewModel: ViewModel = ViewModel.shared
 
-    @State var cardIndex: Int
+    @State var cardIndex: Double
+    @State var total: Double
     @State var offset: CGFloat = 0 // TODO: reset to 0 when view comes back
     
     @ObservedObject var poll: Poll
@@ -81,8 +82,8 @@ struct PollWrapperView: View {
         }
             .frame(width: Constant.pollSize.width, height: Constant.pollSize.height)
             .background(RoundedGeoView(color: Color.white, tl: 60, tr: 60, bl: 60, br: 60))
-            .opacity(self.cardIndex == 0 ? 1 : 0.6)
-            .scaleEffect(self.cardIndex == 0 ? 1 : 0.9, anchor: .bottom)
+            .opacity(Double(((self.cardIndex+1)/self.total)*0.5 + 0.5))
+            .scaleEffect(CGFloat(((self.cardIndex+1)/self.total)*0.15 + 0.85), anchor: .bottom)
             .modifier(CardSwipeEffect(offset: offset))
             .padding()
             .gesture(DragGesture()
@@ -95,7 +96,10 @@ struct PollWrapperView: View {
                     if (value.location.x - value.startLocation.x) < -130 {
 
                         withAnimation {
-                            self.offset = -901
+                            self.offset = -900
+                        }
+                        withAnimation {
+                            ViewModel.shared.removeOne()
                         }
 
                     } else {

@@ -127,13 +127,9 @@ struct RecordOperation {
         operation.resultsLimit = limit
         var records = [CKRecord]()
         operation.recordFetchedBlock = { record in
-//            ViewModel.shared.addPoll(Poll(record: record))
-            debugPrint("Fetched \(record.recordID)")
             records.append(record)
         }
         operation.completionBlock = {
-            debugPrint("Completed queryPoll")
-//            completionBlock()
             completionBlock(records)
         }
         RecordOperation.publicDB.add(operation)

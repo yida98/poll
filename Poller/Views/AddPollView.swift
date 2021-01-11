@@ -89,13 +89,12 @@ struct AddPollView: View {
             }
             .frame(width: Constant.pollSize.width, height: Constant.pollSize.height * 1.125)
             .background(RoundedGeoView(color: Color.darkOrange, tl: 0, tr: 0, bl: 50, br: 50))
-            
             Spacer()
 
         }
         .animation(.easeIn)
         .offset(y: viewModel.showing ? 0 : -Constant.screenSize.height)
-        .edgesIgnoringSafeArea(.all)
+//        .edgesIgnoringSafeArea(.all)
 
     }
 }
