@@ -15,7 +15,7 @@ class AddViewModel: ObservableObject {
     static let shared = AddViewModel()
     
     @Published var title: String = ""
-    @Published var pollItems: [PollItemWithIndex] = [PollItemWithIndex()]
+    @Published var pollItems: [PollItemWithIndex] = [PollItemWithIndex]()
     
     @Published var showing: Bool = false
     @Published var editMode: Bool = false
@@ -27,10 +27,16 @@ class AddViewModel: ObservableObject {
     
     func removeItem(at index: Int) {
         pollItems.remove(at: index)
+        if pollItems.count == 0 {
+            addNewItem()
+        }
     }
     
     func toggleShow() {
         showing.toggle()
+        if pollItems.isEmpty {
+            addNewItem()
+        }
     }
     
     func toggleEdit() {
@@ -44,26 +50,34 @@ class AddViewModel: ObservableObject {
     func submit() {
         let titleArray = pollItems.map {$0.itemName}
         AddViewModel.onSumbit(title: title, items: titleArray)
+//        AddViewModel.shared.reset()
     }
     
     private static func onSumbit(title: String, items: [String]) {
-        RecordOperation.fetch(UserConstants.userCKID) { (userRecord) in
-            var pollItems = [CKRecord]()
-            for item in items {
-                let pollItem = PollItem.create(title: item)
-                pollItems.append(pollItem)
-            }
-            let _ = Poll.create(title: title, creator: userRecord, pollRecords: pollItems)
-            // Dismiss view
-            DispatchQueue.main.async {
-                MenuModel.shared.tapNewPoll()
-            }
-        }
+//        RecordOperation.fetch(UserConstants.userCKID) { (userRecord) in
+//            var pollItems = [CKRecord]()
+//            for item in items {
+//                let pollItem = PollItem.create(title: item)
+//                pollItems.append(pollItem)
+//            }
+//            let _ = Poll.create(title: title, creator: userRecord, pollRecords: pollItems)
+//            // Dismiss view
+//            DispatchQueue.main.async {
+//                MenuModel.shared.tapNewPoll()
+//            }
+//        }
     }
     
     func reset() {
         title = ""
+//        let toDel = pollItems.count
+//        for _ in 0..<toDel {
+//            removeItem(at: 0)
+//        }
         pollItems = [PollItemWithIndex]()
+//        for p in pollItems {
+//            debugPrint(getIndexOf(p))
+//        }
     }
     
     

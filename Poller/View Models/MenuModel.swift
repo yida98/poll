@@ -26,7 +26,7 @@ class MenuModel: ObservableObject {
     @Published var currMiddleImg: String = AssetImages.addPoll.rawValue {
         didSet {
             addViewModel.toggleShow()
-            viewModel.upload()
+            viewModel.update()
         }
     }
     

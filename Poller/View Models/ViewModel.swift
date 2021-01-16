@@ -150,12 +150,14 @@ class ViewModel: ObservableObject {
     }
     
     func update() {
-        debugPrint("Updating...")
-        asyncFetch
-            .receive(on: RunLoop.main)
-            .catch({ error in Just([Poll]()) })
-            .assign(to: \.displayPolls, on: self)
-            .store(in: &cancellableSet)
+        if displayPolls.count < 3 {
+            debugPrint("Updating...")
+            asyncFetch
+                .receive(on: RunLoop.main)
+                .catch({ error in Just([Poll]()) })
+                .assign(to: \.displayPolls, on: self)
+                .store(in: &cancellableSet)
+        }
     }
     
     func toggleShow() {

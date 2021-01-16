@@ -27,7 +27,8 @@ struct AddPollView: View {
                     ForEach(viewModel.pollItems) { item in
                         HStack {
                             if viewModel.editMode {
-                                Text(item.itemName)
+                                Text(
+                                    viewModel.pollItems[viewModel.getIndexOf(item)].itemName)
                                     .padding(.horizontal, 20)
                                     .multilineTextAlignment(.center)
                                     .frame(width: Constant.pollItemSize.width - 20, height: Constant.pollItemSize.height)
@@ -50,13 +51,18 @@ struct AddPollView: View {
                                     .overlay(RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)
                                         .stroke(Color.white, lineWidth: 2)
                                         .frame(width: Constant.pollItemSize.width, height: Constant.pollItemSize.height))
+                                Button("-") {
+                                    viewModel.removeItem(at: viewModel.getIndexOf(item))
+                                }
+                                .frame(width: 20)
+                                .foregroundColor(Color.red)
+
                             }
                         }
                         .padding(.vertical, 5)
                         .padding(.horizontal, 5)
-                        .animation(nil)
                     }
-                }.animation(.easeIn)
+                }//.animation(.easeIn)
                 HStack {
                     Button("add", action: viewModel.addNewItem)
                         .frame(width: Constant.pollItemSize.width*0.4, height: Constant.pollItemSize.height)
@@ -67,7 +73,7 @@ struct AddPollView: View {
                         .opacity(0.7)
                         .padding()
                         .disabled(viewModel.editMode)
-                    Button(viewModel.editMode ? "done" : "edit", action: viewModel.toggleEdit)
+                    Button(viewModel.editMode ? "done" : "edit", action: viewModel.reset)
                         .frame(width: Constant.pollItemSize.width*0.4, height: Constant.pollItemSize.height)
                         .foregroundColor(.white)
                         .overlay(RoundedRectangle(cornerRadius: Constant.pollItemSize.height/2)
@@ -92,7 +98,7 @@ struct AddPollView: View {
             Spacer()
 
         }
-        .animation(.easeIn)
+//        .animation(.easeIn)
         .offset(y: viewModel.showing ? 0 : -Constant.screenSize.height)
 //        .edgesIgnoringSafeArea(.all)
 

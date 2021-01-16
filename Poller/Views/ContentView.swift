@@ -34,7 +34,6 @@ struct ContentView: View {
                 .animation(.easeOut(duration: 0.3))
             
             AddPollView()
-
         }.edgesIgnoringSafeArea(.all)
     }
 }
