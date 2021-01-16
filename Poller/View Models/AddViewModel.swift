@@ -12,14 +12,19 @@ import Combine
 
 class AddViewModel: ObservableObject {
     
-    static let shared = AddViewModel()
-    
     @Published var title: String = ""
     @Published var pollItems: [PollItemWithIndex] = [PollItemWithIndex]()
     
     @Published var showing: Bool = false
     @Published var editMode: Bool = false
     @Published var deployable: Bool = false
+    
+    init() {
+        isFormValid
+            .receive(on: RunLoop.main)
+            .assign(to: \.deployable, on: self)
+            .store(in: &cancellableSet)
+    }
     
     func addNewItem() {
         pollItems.append(PollItemWithIndex())
@@ -50,34 +55,21 @@ class AddViewModel: ObservableObject {
     func submit() {
         let titleArray = pollItems.map {$0.itemName}
         AddViewModel.onSumbit(title: title, items: titleArray)
-//        AddViewModel.shared.reset()
     }
     
     private static func onSumbit(title: String, items: [String]) {
-//        RecordOperation.fetch(UserConstants.userCKID) { (userRecord) in
+        RecordOperation.fetch(UserConstants.userCKID) { (userRecord) in
 //            var pollItems = [CKRecord]()
 //            for item in items {
 //                let pollItem = PollItem.create(title: item)
 //                pollItems.append(pollItem)
 //            }
 //            let _ = Poll.create(title: title, creator: userRecord, pollRecords: pollItems)
-//            // Dismiss view
-//            DispatchQueue.main.async {
-//                MenuModel.shared.tapNewPoll()
-//            }
-//        }
-    }
-    
-    func reset() {
-        title = ""
-//        let toDel = pollItems.count
-//        for _ in 0..<toDel {
-//            removeItem(at: 0)
-//        }
-        pollItems = [PollItemWithIndex]()
-//        for p in pollItems {
-//            debugPrint(getIndexOf(p))
-//        }
+            // Dismiss view
+            DispatchQueue.main.async {
+                MenuModel.shared.tapNewPoll()
+            }
+        }
     }
     
     
@@ -106,13 +98,6 @@ class AddViewModel: ObservableObject {
     
     private var cancellableSet: Set<AnyCancellable> = []
     
-    init() {
-        isFormValid
-            .receive(on: RunLoop.main)
-            .assign(to: \.deployable, on: self)
-            .store(in: &cancellableSet)
-        
-    }
 }
 
 struct PollItemWithIndex: Identifiable {

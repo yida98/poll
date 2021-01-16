@@ -11,7 +11,6 @@ import Foundation
 class MenuModel: ObservableObject {
     
     static let shared = MenuModel()
-    var addViewModel = AddViewModel.shared
     var viewModel = ViewModel.shared
             
     @Published var cardDisplaying: Bool = true
@@ -25,7 +24,7 @@ class MenuModel: ObservableObject {
     
     @Published var currMiddleImg: String = AssetImages.addPoll.rawValue {
         didSet {
-            addViewModel.toggleShow()
+            viewModel.toggleAddPollView()
             viewModel.update()
         }
     }

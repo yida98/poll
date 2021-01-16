@@ -29,6 +29,14 @@ class ViewModel: ObservableObject {
             }
         }
     }
+    
+    // MARK: AddPollView
+    @Published var showAddPollView = false
+    
+    func toggleAddPollView() {
+        showAddPollView.toggle()
+    }
+    
     @Published var showSplash = true
         
     private var batchAsyncFetch: AnyPublisher<[Poll], Error> {

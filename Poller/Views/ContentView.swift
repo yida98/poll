@@ -33,7 +33,11 @@ struct ContentView: View {
                 .opacity(viewModel.showSplash ? 1 : 0)
                 .animation(.easeOut(duration: 0.3))
             
-            AddPollView()
+            if viewModel.showAddPollView {
+                AddPollView(viewModel: AddViewModel())
+                    .offset(y: viewModel.showAddPollView ? 0 : -Constant.screenSize.height)
+                    .animation(.default)
+            }
         }.edgesIgnoringSafeArea(.all)
     }
 }
